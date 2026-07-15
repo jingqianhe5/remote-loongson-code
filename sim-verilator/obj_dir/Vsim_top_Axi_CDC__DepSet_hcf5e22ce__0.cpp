@@ -567,7 +567,12 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top_
     }
     if (vlSelf->__PVT__arFifo__DOT___zz_1) {
         __Vdlyvval__arFifo__DOT__ram__v0 = (0xca00000000000ULL 
-                                            | (QData)((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_araddr)));
+                                            | (((QData)((IData)(
+                                                                ((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__u_tpu_axi_fetch_top__DOT__dma_arvalid_reg)
+                                                                  ? (IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__u_tpu_axi_fetch_top__DOT__dma_arlen_reg)
+                                                                  : 0U))) 
+                                                << 0x24U) 
+                                               | (QData)((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_araddr))));
         __Vdlyvset__arFifo__DOT__ram__v0 = 1U;
         __Vdlyvdim0__arFifo__DOT__ram__v0 = (3U & (IData)(vlSelf->__PVT__arFifo__DOT__pushCC_pushPtr));
     }
@@ -734,10 +739,10 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DO
            & (IData)(vlSelf->__PVT__wFifo__DOT__popCC_addressGen_ready));
 }
 
-VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__9(Vsim_top_Axi_CDC* vlSelf) {
+VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__8(Vsim_top_Axi_CDC* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vsim_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__9\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__8\n"); );
     // Body
     vlSelf->__PVT__awFifo__DOT__bufferCC_12__DOT__buffers_1 
         = ((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_resetn) 
@@ -751,6 +756,21 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DO
     Vsim_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__1\n"); );
     // Body
+    vlSelf->__PVT__rFifo__DOT__popCC_readArbitation_fire 
+        = ((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_rready) 
+           & (IData)(vlSelf->__PVT__rFifo__DOT__popCC_addressGen_rValid));
+    vlSelf->__PVT__rFifo__DOT__popCC_addressGen_ready 
+        = vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_rready;
+    if ((1U & (~ (IData)(vlSelf->__PVT__rFifo__DOT__popCC_addressGen_rValid)))) {
+        vlSelf->__PVT__rFifo__DOT__popCC_addressGen_ready = 1U;
+    }
+}
+
+VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__2(Vsim_top_Axi_CDC* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vsim_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__2\n"); );
+    // Body
     vlSelf->__PVT__bFifo__DOT__io_push_fire = ((~ (IData)(vlSelf->__PVT__bFifo__DOT__pushCC_full)) 
                                                & (IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__u_AXI_top__DOT__u_axi_crossbar__DOT__axi_crossbar_wr_inst__DOT__s_ifaces__BRA__2__KET____DOT__reg_inst__DOT__genblk3__DOT__s_axi_bvalid_reg));
     vlSelf->__PVT__rFifo__DOT__io_push_fire = ((~ (IData)(vlSelf->__PVT__rFifo__DOT__pushCC_full)) 
@@ -763,22 +783,4 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DO
     if (vlSelf->__PVT__rFifo__DOT__io_push_fire) {
         vlSelf->__PVT__rFifo__DOT___zz_1 = 1U;
     }
-}
-
-VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__2(Vsim_top_Axi_CDC* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vsim_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vsim_top_Axi_CDC___nba_comb__TOP__sim_top__DOT__u_soc_top__DOT__u_tpu_Axi_CDC__2\n"); );
-    // Body
-    vlSelf->__PVT__rFifo__DOT__popCC_readArbitation_fire 
-        = ((IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_rready) 
-           & (IData)(vlSelf->__PVT__rFifo__DOT__popCC_addressGen_rValid));
-    vlSelf->__PVT__rFifo__DOT__popCC_addressGen_ready 
-        = vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__tpu_axi_rready;
-    if ((1U & (~ (IData)(vlSelf->__PVT__rFifo__DOT__popCC_addressGen_rValid)))) {
-        vlSelf->__PVT__rFifo__DOT__popCC_addressGen_ready = 1U;
-    }
-    vlSelf->__PVT__rFifo__DOT__popCC_addressGen_fire 
-        = ((~ (IData)(vlSelf->__PVT__rFifo__DOT__popCC_empty)) 
-           & (IData)(vlSelf->__PVT__rFifo__DOT__popCC_addressGen_ready));
 }

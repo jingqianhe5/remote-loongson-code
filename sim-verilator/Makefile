@@ -14,7 +14,11 @@ SDK_ROOT   := ../sdk
 
 # Default program to load into SRAM (override on command line)
 PROGRAM    ?= hello_world
+ifeq ($(PROGRAM),runc)
+BIN_FILE   ?= $(SDK_ROOT)/run.bin
+else
 BIN_FILE   ?= $(SDK_ROOT)/$(PROGRAM).bin
+endif
 OBJ_DIR    := obj_dir
 MIF_FILE   := $(OBJ_DIR)/axi_ram.mif
 CONVERT    := $(OBJ_DIR)/convert
@@ -180,26 +184,18 @@ VSRCS := \
   $(RTL_ROOT)/ip/tpu/decode.v \
   $(RTL_ROOT)/ip/tpu/tpu.v \
   $(RTL_ROOT)/ip/tpu/unified_buffer.sv \
-  $(RTL_ROOT)/ip/tpu/gradient_descent.sv \
   $(RTL_ROOT)/ip/tpu/vpu.v \
   $(RTL_ROOT)/ip/tpu/systolic.v \
   $(RTL_ROOT)/ip/tpu/pe.v \
-  $(RTL_ROOT)/ip/tpu/bias_centre.v \
   $(RTL_ROOT)/ip/tpu/bias_unit.v \
-  $(RTL_ROOT)/ip/tpu/leaky_relu_centre.v \
   $(RTL_ROOT)/ip/tpu/leaky_relu_unit.v \
-  $(RTL_ROOT)/ip/tpu/loss_centre.v \
-  $(RTL_ROOT)/ip/tpu/loss_unit.v \
-  $(RTL_ROOT)/ip/tpu/leaky_relu_derivative_centre.v \
-  $(RTL_ROOT)/ip/tpu/leaky_relu_derivative_unit.v \
   $(RTL_ROOT)/ip/tpu/fxp_add.v \
-  $(RTL_ROOT)/ip/tpu/fxp_addsub.v \
   $(RTL_ROOT)/ip/tpu/fxp_mul.v \
   $(RTL_ROOT)/ip/tpu/fxp_zoom.v
 
 SIM_EXE := obj_dir/Vsim_top
 
-.PHONY: all run fast wave clean sdk-build
+.PHONY: all run fast wave clean sdk-build tpu-test
 
 all: $(SIM_EXE)
 
@@ -235,6 +231,26 @@ fast: run
 
 wave: run
 	gtkwave wave.fst &
+
+tpu-test:
+	verilator --binary --timing --top-module tpu_dma_tb \
+		--Mdir /tmp/ciciec_tpu_dma_tb \
+		-Wno-fatal -Wno-PINMISSING -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC \
+		tpu_dma_tb.sv \
+		$(RTL_ROOT)/ip/tpu/tpu_axi_fetch_top.v \
+		$(RTL_ROOT)/ip/tpu/tpu_isa_confreg.v \
+		$(RTL_ROOT)/ip/tpu/decode.v \
+		$(RTL_ROOT)/ip/tpu/tpu.v \
+		$(RTL_ROOT)/ip/tpu/unified_buffer.sv \
+		$(RTL_ROOT)/ip/tpu/vpu.v \
+		$(RTL_ROOT)/ip/tpu/systolic.v \
+		$(RTL_ROOT)/ip/tpu/pe.v \
+		$(RTL_ROOT)/ip/tpu/bias_unit.v \
+		$(RTL_ROOT)/ip/tpu/leaky_relu_unit.v \
+		$(RTL_ROOT)/ip/tpu/fxp_add.v \
+		$(RTL_ROOT)/ip/tpu/fxp_mul.v \
+		$(RTL_ROOT)/ip/tpu/fxp_zoom.v
+	/tmp/ciciec_tpu_dma_tb/Vtpu_dma_tb
 
 clean:
 	rm -rf obj_dir wave.vcd wave.fst

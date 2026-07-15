@@ -7,9 +7,12 @@ module tpu_isa_confreg #(
     input  wire        ins_valid,
     input  wire [31:0] ins,
 
-    input  wire        ub_wr_ext_valid,
-    input  wire [15:0] ub_wr_ext_addr,
-    input  wire [15:0] ub_wr_ext_data,
+    input  wire        ub_wr_ext_valid_0,
+    input  wire [15:0] ub_wr_ext_addr_0,
+    input  wire [15:0] ub_wr_ext_data_0,
+    input  wire        ub_wr_ext_valid_1,
+    input  wire [15:0] ub_wr_ext_addr_1,
+    input  wire [15:0] ub_wr_ext_data_1,
 
     input  wire [15:0] learn_rate_in,
     input  wire [15:0] vpu_factor_in,
@@ -79,6 +82,9 @@ module tpu_isa_confreg #(
     wire [15:0] ub_wr_host_data_mux_1;
     wire [15:0] ub_wr_host_addr_mux_1;
     wire        ub_wr_host_valid_mux_1;
+    wire [15:0] ub_wr_host_data_mux_0;
+    wire [15:0] ub_wr_host_addr_mux_0;
+    wire        ub_wr_host_valid_mux_0;
 
     wire        ub_wr_addr_start_in;
     wire [15:0] ub_wr_addr_in;
@@ -96,9 +102,12 @@ module tpu_isa_confreg #(
     wire [3:0]  vpu_mode;
     wire        switch_in;
 
-    assign ub_wr_host_data_mux_1 = ub_wr_ext_valid ? ub_wr_ext_data : ub_wr_host_data_in_1;
-    assign ub_wr_host_addr_mux_1 = ub_wr_ext_valid ? ub_wr_ext_addr : ub_wr_host_addr_in_1;
-    assign ub_wr_host_valid_mux_1 = ub_wr_ext_valid | ub_wr_host_valid_in_1;
+    assign ub_wr_host_data_mux_0 = ub_wr_ext_valid_0 ? ub_wr_ext_data_0 : ub_wr_host_data_in_0;
+    assign ub_wr_host_addr_mux_0 = ub_wr_ext_valid_0 ? ub_wr_ext_addr_0 : ub_wr_host_addr_in_0;
+    assign ub_wr_host_valid_mux_0 = ub_wr_ext_valid_0 | ub_wr_host_valid_in_0;
+    assign ub_wr_host_data_mux_1 = ub_wr_ext_valid_1 ? ub_wr_ext_data_1 : ub_wr_host_data_in_1;
+    assign ub_wr_host_addr_mux_1 = ub_wr_ext_valid_1 ? ub_wr_ext_addr_1 : ub_wr_host_addr_in_1;
+    assign ub_wr_host_valid_mux_1 = ub_wr_ext_valid_1 | ub_wr_host_valid_in_1;
 
     decode u_decode (
         .clk(clk),
@@ -136,11 +145,11 @@ module tpu_isa_confreg #(
         .clk(clk),
         .rst_n(rst_n),
 
-        .ub_wr_host_data_in_0(ub_wr_host_data_in_0),
+        .ub_wr_host_data_in_0(ub_wr_host_data_mux_0),
         .ub_wr_host_data_in_1(ub_wr_host_data_mux_1),
-        .ub_wr_host_addr_in_0(ub_wr_host_addr_in_0),
+        .ub_wr_host_addr_in_0(ub_wr_host_addr_mux_0),
         .ub_wr_host_addr_in_1(ub_wr_host_addr_mux_1),
-        .ub_wr_host_valid_in_0(ub_wr_host_valid_in_0),
+        .ub_wr_host_valid_in_0(ub_wr_host_valid_mux_0),
         .ub_wr_host_valid_in_1(ub_wr_host_valid_mux_1),
 
         .ub_wr_addr_start_in(ub_wr_addr_start_in),

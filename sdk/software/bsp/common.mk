@@ -20,11 +20,13 @@ CFLAGS += -DCLOCKS_PER_SEC=CORE_CLOCKS_PER_SEC -D_CLOCKS_PER_SEC_=CORE_CLOCKS_PE
 CFLAGS += -DUSE_CPU_CLOCK_COUNT
 
 #若使用 newlib , 将下面的 -lsemihost 替换为 -lgloss
+SEMIHOST_LIB ?= -lsemihost
+
 LDFLAGS +=  	-T $(LINKER_SCRIPT) \
 				-Wl,--gc-sections -Wl,--check-sections \
-				-lc -lm -lg -lsemihost -lgcc -L$(PICOLIBC_DIR)/lib
+				-lc -lm -lg $(SEMIHOST_LIB) -lgcc -L$(PICOLIBC_DIR)/lib
 
-LINKER_SCRIPT := $(COMMON_DIR)/env/separate.lds
+LINKER_SCRIPT ?= $(COMMON_DIR)/env/separate.lds
 
 ASM_SRCS += $(COMMON_DIR)/env/start.S 
 

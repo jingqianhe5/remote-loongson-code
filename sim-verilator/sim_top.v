@@ -373,6 +373,8 @@ integer tpu_fetch_seen;
 integer tpu_wait_print_div;
 reg tpu_lacc_start_prev;
 reg tpu_busy_prev;
+reg tpu_done_prev;
+reg tpu_error_prev;
 reg [2:0] tpu_state_prev;
 
 initial begin
@@ -381,6 +383,8 @@ initial begin
     tpu_wait_print_div = 0;
     tpu_lacc_start_prev = 1'b0;
     tpu_busy_prev = 1'b0;
+    tpu_done_prev = 1'b0;
+    tpu_error_prev = 1'b0;
     tpu_state_prev = 3'd0;
     if (tpu_debug_enable) begin
         $display("[tpu_dbg] monitor enabled");
@@ -398,6 +402,12 @@ always @(posedge u_soc_top.cpu_clk) begin
                      u_soc_top.tpu_busy,
                      u_soc_top.tpu_done,
                      u_soc_top.tpu_error);
+        end
+
+        if (u_soc_top.tpu_lacc_cmd_fifo_wr_en) begin
+            $display("[tpu_dbg] cmd push op=%0d payload=0x%08x",
+                     u_soc_top.lacc_tpu_cmd_op,
+                     u_soc_top.lacc_tpu_cmd_payload);
         end
 
         if (u_soc_top.tpu_busy && !tpu_busy_prev) begin
@@ -432,7 +442,8 @@ always @(posedge u_soc_top.cpu_clk) begin
             tpu_fetch_seen <= tpu_fetch_seen + 1;
         end
 
-        if (u_soc_top.tpu_done || u_soc_top.tpu_error) begin
+        if ((u_soc_top.tpu_done && !tpu_done_prev) ||
+            (u_soc_top.tpu_error && !tpu_error_prev)) begin
             $display("[tpu_dbg] finish busy=%0b done=%0b err=%0b pc=0x%08x last=0x%08x",
                      u_soc_top.tpu_busy,
                      u_soc_top.tpu_done,
@@ -461,7 +472,29 @@ always @(posedge u_soc_top.cpu_clk) begin
 
         tpu_lacc_start_prev <= u_soc_top.lacc_tpu_start;
         tpu_busy_prev       <= u_soc_top.tpu_busy;
+        tpu_done_prev       <= u_soc_top.tpu_done;
+        tpu_error_prev      <= u_soc_top.tpu_error;
         tpu_state_prev      <= u_soc_top.u_tpu_axi_fetch_top.state;
+    end
+end
+
+
+always @(posedge u_soc_top.tpu_clk) begin
+    if (u_soc_top.tpu_resetn && tpu_debug_enable) begin
+        if (u_soc_top.tpu_lacc_cmd_fifo_rd_en) begin
+            $display("[tpu_dbg] cmd pop op=%0d payload=0x%08x clear=%0b start=%0b dma=%0b",
+                     u_soc_top.tpu_lacc_cmd_op_tpu,
+                     u_soc_top.tpu_lacc_cmd_payload_tpu,
+                     u_soc_top.tpu_clear_final,
+                     u_soc_top.tpu_start_final,
+                     u_soc_top.tpu_dma_req_valid);
+        end
+        if (u_soc_top.tpu_clear_final) begin
+            $display("[tpu_dbg] clear pulse exec_done=%0b dma_done=%0b busy=%0b",
+                     u_soc_top.u_tpu_axi_fetch_top.exec_done_reg,
+                     u_soc_top.u_tpu_axi_fetch_top.dma_done_reg,
+                     u_soc_top.tpu_busy_tpu);
+        end
     end
 end
 
@@ -500,4 +533,3 @@ always @(posedge clk) begin
 end
 
 endmodule
-

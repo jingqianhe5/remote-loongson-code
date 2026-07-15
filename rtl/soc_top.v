@@ -668,11 +668,17 @@ wire [1:0]      tpu_lacc_cmd_op_tpu;
 wire [31:0]     tpu_lacc_cmd_payload_tpu;
 wire            tpu_lacc_cmd_is_start;
 wire            tpu_lacc_cmd_is_ub_write;
+wire            tpu_lacc_cmd_is_dma_load;
+wire            tpu_lacc_cmd_is_clear;
 wire            tpu_lacc_cmd_fifo_wr_en;
 wire            tpu_lacc_cmd_fifo_rd_en;
 wire            tpu_ub_host_wr_valid;
 wire [15:0]     tpu_ub_host_wr_addr;
 wire [15:0]     tpu_ub_host_wr_data;
+wire            tpu_dma_req_valid;
+wire            tpu_dma_req_ready;
+wire [31:0]     tpu_dma_desc_addr;
+wire            tpu_clear_final;
 
 wire            tpu_result_fifo_full;
 wire            tpu_result_fifo_empty;
@@ -687,6 +693,8 @@ reg [1:0]       tpu_error_sync_cpu;
 
 localparam [1:0] TPU_LACC_CMD_START    = 2'd1;
 localparam [1:0] TPU_LACC_CMD_UB_WRITE = 2'd2;
+localparam [1:0] TPU_LACC_CMD_DMA_LOAD = 2'd3;
+localparam [1:0] TPU_LACC_CMD_CLEAR    = 2'd0;
 
 assign lacc_tpu_cmd_ready =
     !tpu_lacc_cmd_fifo_full && !tpu_lacc_cmd_fifo_wr_rst_busy;
@@ -701,10 +709,16 @@ assign tpu_lacc_cmd_is_start =
     tpu_lacc_cmd_fifo_valid && (tpu_lacc_cmd_op_tpu == TPU_LACC_CMD_START);
 assign tpu_lacc_cmd_is_ub_write =
     tpu_lacc_cmd_fifo_valid && (tpu_lacc_cmd_op_tpu == TPU_LACC_CMD_UB_WRITE);
+assign tpu_lacc_cmd_is_dma_load =
+    tpu_lacc_cmd_fifo_valid && (tpu_lacc_cmd_op_tpu == TPU_LACC_CMD_DMA_LOAD);
+assign tpu_lacc_cmd_is_clear =
+    tpu_lacc_cmd_fifo_valid && (tpu_lacc_cmd_op_tpu == TPU_LACC_CMD_CLEAR);
 assign tpu_lacc_cmd_fifo_rd_en =
     tpu_lacc_cmd_fifo_valid &&
     !tpu_lacc_cmd_fifo_rd_rst_busy &&
-    (!tpu_lacc_cmd_is_start || !tpu_busy_tpu);
+    (!tpu_lacc_cmd_is_start || !tpu_busy_tpu) &&
+    (!tpu_lacc_cmd_is_dma_load || tpu_dma_req_ready) &&
+    (!tpu_lacc_cmd_is_ub_write || tpu_dma_req_ready);
 
 assign tpu_start_final =
     tpu_lacc_cmd_fifo_rd_en && tpu_lacc_cmd_is_start;
@@ -713,6 +727,11 @@ assign tpu_ub_host_wr_valid =
     tpu_lacc_cmd_fifo_rd_en && tpu_lacc_cmd_is_ub_write;
 assign tpu_ub_host_wr_addr = tpu_lacc_cmd_payload_tpu[31:16];
 assign tpu_ub_host_wr_data = tpu_lacc_cmd_payload_tpu[15:0];
+assign tpu_dma_req_valid =
+    tpu_lacc_cmd_fifo_rd_en && tpu_lacc_cmd_is_dma_load;
+assign tpu_dma_desc_addr = tpu_lacc_cmd_payload_tpu;
+assign tpu_clear_final =
+    tpu_lacc_cmd_fifo_rd_en && tpu_lacc_cmd_is_clear;
 
 wire tpu_result_fifo_wr_en =
     (tpu_infer_result_valid_tpu != 8'd0) &&
@@ -1667,6 +1686,10 @@ tpu_axi_fetch_top #(
     .ub_wr_ext_valid      (tpu_ub_host_wr_valid),
     .ub_wr_ext_addr       (tpu_ub_host_wr_addr),
     .ub_wr_ext_data       (tpu_ub_host_wr_data),
+    .dma_req_valid        (tpu_dma_req_valid),
+    .dma_req_ready        (tpu_dma_req_ready),
+    .dma_desc_addr        (tpu_dma_desc_addr),
+    .clear                (tpu_clear_final),
 
     .m_axi_awid           (tpu_axi_awid),
     .m_axi_awaddr         (tpu_axi_awaddr),

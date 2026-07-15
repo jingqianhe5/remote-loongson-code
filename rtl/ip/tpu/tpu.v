@@ -184,7 +184,7 @@ module tpu#(
     assign sys_valid_out_7 = sys_valid_bus_out[7];
 
     unified_buffer #(
-        .UNIFIED_BUFFER_WIDTH(1024),
+        .UNIFIED_BUFFER_WIDTH(2048),
         .SYSTOLIC_ARRAY_WIDTH(SYSTOLIC_ARRAY_WIDTH)
     ) ub_inst(
         .clk(clk),
@@ -253,6 +253,9 @@ module tpu#(
     );
 
     systolic #(
+        .WIDTH(16),
+        .F_BITS(8),
+        .ACC_WIDTH(32),
         .SYSTOLIC_ARRAY_WIDTH(SYSTOLIC_ARRAY_WIDTH)
     ) systolic_inst (
         .clk(clk),

@@ -1,6 +1,7 @@
 module pe #(
     parameter WIDTH = 16,
-    parameter F_BITS = 8
+    parameter F_BITS = 8,
+    parameter ACC_WIDTH = 32
 )
 (
     input clk,
@@ -15,8 +16,8 @@ module pe #(
     output  reg signed [WIDTH-1:0]   weight_out,
     input                            weight_valid,//权重有效信号
     //结果
-    input       signed [WIDTH-1:0]   psum_in,
-    output  reg signed [WIDTH-1:0]   psum_out,
+    input       signed [ACC_WIDTH-1:0] psum_in,
+    output  reg signed [ACC_WIDTH-1:0] psum_out,
     //双缓冲切换信号
     input                            switch_in,
     output  reg                      switch_out,
@@ -27,44 +28,24 @@ module pe #(
 );
     reg [WIDTH-1:0] weight_in_active;//用来计算的权重寄存器
     reg [WIDTH-1:0] weight_in_buffer; // 权重输入缓冲寄存器(双缓冲)
-    
-    wire signed [WIDTH-1:0] mul_result;//乘法结果
-    wire mul_overflow;//乘法溢出信号
-    wire add_overflow;//加法溢出信号
-
-    wire signed [WIDTH-1:0] result;//总体计算结果
 
     wire signed [WIDTH-1:0] weight_for_compute;
+    wire signed [2*WIDTH-1:0] product_full;
+    wire signed [ACC_WIDTH-1:0] product_acc;
+    wire signed [ACC_WIDTH:0] sum_wide;
+    wire signed [ACC_WIDTH-1:0] result;
+    wire add_overflow;
 
     assign weight_for_compute = switch_in ? weight_in_buffer : weight_in_active;
-
-    fxp_mul #(
-        .WIIA   (WIDTH - F_BITS),
-        .WIFA   (F_BITS),
-        .WIIB   (WIDTH - F_BITS),
-        .WIFB   (F_BITS),
-        .WOI    (WIDTH - F_BITS),
-        .WOF    (F_BITS)
-    ) mult (
-        .ina(input_in),
-        .inb(weight_for_compute),
-        .out(mul_result),
-        .overflow(mul_overflow)
-    );
-
-   fxp_add #(
-        .WIIA   (WIDTH - F_BITS),
-        .WIFA   (F_BITS),
-        .WIIB   (WIDTH - F_BITS),
-        .WIFB   (F_BITS),
-        .WOI    (WIDTH - F_BITS),
-        .WOF    (F_BITS)
-    ) adder (
-        .ina(mul_result),
-        .inb(psum_in),
-        .out(result),
-        .overflow(add_overflow)
-    );
+    // Q8.8 x Q8.8 produces an exact Q16.16 product. Keep that full product
+    // and every partial sum at 32 bits; narrowing after every MAC destroyed
+    // Llama logits even when no TPU timeout occurred.
+    assign product_full = $signed(input_in) * $signed(weight_for_compute);
+    assign product_acc = product_full;
+    assign sum_wide = {psum_in[ACC_WIDTH-1], psum_in} +
+                      {product_acc[ACC_WIDTH-1], product_acc};
+    assign result = sum_wide[ACC_WIDTH-1:0];
+    assign add_overflow = sum_wide[ACC_WIDTH] != sum_wide[ACC_WIDTH-1];
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n||!pe_enabled)begin
@@ -74,7 +55,7 @@ module pe #(
             input_out_valid     <= 1'b0;
             weight_out          <= {WIDTH{1'b0}};
             switch_out          <= 1'b0;
-            psum_out            <= {WIDTH{1'b0}};
+            psum_out            <= {ACC_WIDTH{1'b0}};
             overflow_out        <= 1'b0;
         end
         else begin
@@ -95,7 +76,7 @@ module pe #(
             if(input_in_valid)begin
                 input_out <= input_in;
                 psum_out <= result;
-                overflow_out <= overflow_out | (mul_overflow | add_overflow);
+                overflow_out <= overflow_out | add_overflow;
             end
             else begin
                 input_out <= 0;

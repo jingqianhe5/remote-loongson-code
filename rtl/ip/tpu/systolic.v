@@ -1,6 +1,7 @@
 module systolic #(
     parameter WIDTH = 16,
     parameter F_BITS = 8,
+    parameter ACC_WIDTH = 32,
     parameter SYSTOLIC_ARRAY_WIDTH = 8
 )
 (
@@ -49,8 +50,33 @@ module systolic #(
     wire signed [WIDTH-1:0] input_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
     wire                    input_valid_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
     wire signed [WIDTH-1:0] weight_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
-    wire signed [WIDTH-1:0] psum_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
+    wire signed [ACC_WIDTH-1:0] psum_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
     wire                    switch_link [0:SYSTOLIC_ARRAY_WIDTH-1][0:SYSTOLIC_ARRAY_WIDTH-1];
+
+    localparam integer ACC_SHIFT = F_BITS;
+
+    function automatic signed [WIDTH-1:0] accumulator_to_output;
+        input signed [ACC_WIDTH-1:0] accumulator;
+        reg signed [ACC_WIDTH:0] extended;
+        reg signed [ACC_WIDTH:0] magnitude;
+        reg signed [ACC_WIDTH:0] scaled;
+        begin
+            extended = {accumulator[ACC_WIDTH-1], accumulator};
+            if (extended < 0) begin
+                magnitude = -extended;
+                scaled = -((magnitude + (1 << (ACC_SHIFT-1))) >>> ACC_SHIFT);
+            end else begin
+                scaled = (extended + (1 << (ACC_SHIFT-1))) >>> ACC_SHIFT;
+            end
+
+            if (scaled > ((1 << (WIDTH-1)) - 1))
+                accumulator_to_output = {1'b0, {(WIDTH-1){1'b1}}};
+            else if (scaled < -(1 << (WIDTH-1)))
+                accumulator_to_output = {1'b1, {(WIDTH-1){1'b0}}};
+            else
+                accumulator_to_output = scaled[WIDTH-1:0];
+        end
+    endfunction
 
     genvar row;
     genvar col;
@@ -60,7 +86,7 @@ module systolic #(
                 wire signed [WIDTH-1:0] input_to_pe;
                 wire                    input_valid_to_pe;
                 wire signed [WIDTH-1:0] weight_to_pe;
-                wire signed [WIDTH-1:0] psum_to_pe;
+                wire signed [ACC_WIDTH-1:0] psum_to_pe;
                 wire                    switch_to_pe;
 
                 if (col == 0) begin : left_edge
@@ -86,7 +112,7 @@ module systolic #(
                 end
 
                 if (row == 0) begin : psum_top
-                    assign psum_to_pe = {WIDTH{1'b0}};
+                    assign psum_to_pe = {ACC_WIDTH{1'b0}};
                 end else begin : psum_from_top
                     assign psum_to_pe = psum_link[row-1][col];
                 end
@@ -101,7 +127,8 @@ module systolic #(
 
                 pe #(
                     .WIDTH(WIDTH),
-                    .F_BITS(F_BITS)
+                    .F_BITS(F_BITS),
+                    .ACC_WIDTH(ACC_WIDTH)
                 ) pe_inst (
                     .clk            (clk),
                     .rst_n          (rst_n),
@@ -138,7 +165,8 @@ module systolic #(
         end
 
         for (out_i = 0; out_i < SYSTOLIC_ARRAY_WIDTH; out_i = out_i + 1) begin
-            z_data_out[out_i*WIDTH +: WIDTH] = psum_link[active_row_idx][out_i];
+            z_data_out[out_i*WIDTH +: WIDTH] =
+                accumulator_to_output(psum_link[active_row_idx][out_i]);
             z_valid_out[out_i] = input_valid_link[active_row_idx][out_i];
         end
     end

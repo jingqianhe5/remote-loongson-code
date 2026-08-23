@@ -10,5 +10,4 @@ Vsim_top_BoothInterBase__DepSet_h9060f0a2__4.o: \
  /usr/local/share/verilator/include/verilated.h Vsim_top__Syms.h \
  Vsim_top.h Vsim_top___024root.h Vsim_top_Axi_CDC.h \
  Vsim_top_WallaceTreeBase.h Vsim_top_arbiter__P3_A1_AB1_AD1.h \
- Vsim_top_robert_sharpen_single.h Vsim_top_sobel_sharpen_single.h \
- Vsim_top_pe.h
+ Vsim_top_robert_sharpen_single.h Vsim_top_sobel_sharpen_single.h

@@ -16,7 +16,7 @@ module contrast_adj
     input              I_tvalid,
 
     // Control
-    input      [7:0]   contrast_level,
+input      [7:0]   contrast_level,
  
     // AXI-Stream Master Interface
     output             O_tlast,
@@ -83,6 +83,10 @@ wire [7:0] R;
 wire [7:0] G;
 wire [7:0] B;
 
+// contrast_level is an unsigned Q1.7 gain. Extending it before the signed
+// multiply keeps 8'h80 equal to +1.0 instead of interpreting it as -1.0.
+wire signed [8:0] contrast_gain = $signed({1'b0, contrast_level});
+
 
 //==============================================================================
 // 3. Contrast Calculation Pipeline (3 stages)
@@ -112,10 +116,9 @@ always @(posedge I_clk or negedge I_rst_n) begin
         temp_value_B <= 0;
     end
     else if(I_tvalid_r[0]) begin // Use 1-cycle delayed tvalid
-// Use $signed() to ensure the multiplication is performed on two signed numbers
-temp_value_R <= (pixel_shifted_R * $signed(contrast_level)) >>> 7;
-temp_value_G <= (pixel_shifted_G * $signed(contrast_level)) >>> 7;
-temp_value_B <= (pixel_shifted_B * $signed(contrast_level)) >>> 7;
+temp_value_R <= (pixel_shifted_R * contrast_gain) >>> 7;
+temp_value_G <= (pixel_shifted_G * contrast_gain) >>> 7;
+temp_value_B <= (pixel_shifted_B * contrast_gain) >>> 7;
 
     end
 end

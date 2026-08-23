@@ -48,11 +48,15 @@ enum {
   DVI_DMA_DATA = DVI_AXI_BASE + 0x14,
   DVI_FB_SRAM_AXI_BASE = 0x1c400000,
   DVI_FB_SRAM_CPU_BASE = 0xbc400000,
+  NEW_DVI_FB_AXI_BASE = 0x11000000,
   NEW_DVI_FB_CPU_BASE = 0xb1000000,
   NEW_DVI_CTRL_CPU_ADDR = 0xb10ffffc,
 };
 
 static int dvi_draw_fb_idx = 0;
+#if !AM_USE_NEW_DVI
+static int dvi_dma_window_configured = 0;
+#endif
 static const uint8_t *g_pending_full_frame = NULL;
 
 // 在常规（带Cache）内存中分配一个软背板，并要求4字节对齐以便后续快速拷贝
@@ -125,6 +129,7 @@ static inline void new_dvi_fill(uint8_t color) {
 }
 
 
+#if !AM_USE_NEW_DVI
 static inline void dvi_config_window(uint32_t mode, int x, int y, int w, int h) {
   outl(DVI_MODE, mode);
   outl(DVI_SIZE, ((uint32_t)DVI_FB_WIDTH << 16) | DVI_FB_HEIGHT);
@@ -132,6 +137,7 @@ static inline void dvi_config_window(uint32_t mode, int x, int y, int w, int h) 
   outl(DVI_WH, ((uint32_t)w << 16) | (uint16_t)h);
   outl(DVI_CMD, 1);
 }
+#endif
 
 static inline uint32_t dma_status_read(void) {
   return inl(DMA_STATUS);
@@ -154,15 +160,32 @@ static void dvi_dma_flush_shadow(void) {
 
   dma_wait_idle();
   dvi_dma_barrier();
-  dvi_config_window(3, 0, 0, DVI_FB_WIDTH, DVI_FB_HEIGHT);
+#if !AM_USE_NEW_DVI
+  if (!dvi_dma_window_configured) {
+    dvi_config_window(3, 0, 0, DVI_FB_WIDTH, DVI_FB_HEIGHT);
+    dvi_dma_window_configured = 1;
+  }
+#endif
   dma_wait_ready();
   outl(DMA_READ_ADDR, (uint32_t)dvi_shadow_fb_phys(flush_fb_idx));
   outl(DMA_READ_LEN, DVI_FB_BYTES);
+#if AM_USE_NEW_DVI
+  outl(DMA_WRITE_ADDR, NEW_DVI_FB_AXI_BASE);
+#else
   outl(DMA_WRITE_ADDR, DVI_DMA_DATA);
+#endif
   outl(DMA_WRITE_LEN, DVI_FB_BYTES);
   outl(DMA_START, DMA_START_READ | DMA_START_WRITE);
 
   dvi_draw_fb_idx ^= 1;
+}
+
+void *__am_gpu_dma_frame_begin(void) {
+  return (void *)dvi_draw_fb_uncached();
+}
+
+void __am_gpu_dma_frame_submit(void) {
+  dvi_dma_flush_shadow();
 }
 
 static void dvi_fill_rect(int x, int y, int w, int h, uint8_t color) {
@@ -289,7 +312,11 @@ bool ioe_init() {
 
 #if AM_USE_NEW_DVI
   new_dvi_enable();
-  new_dvi_fill(0x00);
+  for (int fb = 0; fb < 2; fb++) {
+    volatile uint32_t *shadow = (volatile uint32_t *)dvi_shadow_fb_uncached(fb);
+    for (int i = 0; i < DVI_FB_BYTES / 4; i++) shadow[i] = 0;
+  }
+  dvi_dma_flush_shadow();
   return true;
 #endif
   

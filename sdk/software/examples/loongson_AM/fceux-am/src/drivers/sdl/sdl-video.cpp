@@ -33,6 +33,11 @@
 #include "sdl-video.h"
 #include "../../config.h"
 
+#if FCEUX_USE_DMA_DVI
+extern "C" void *__am_gpu_dma_frame_begin(void);
+extern "C" void __am_gpu_dma_frame_submit(void);
+#endif
+
 static int s_srendline;
 //static int s_erendline;
 static const int s_tlines = 240;
@@ -64,7 +69,7 @@ KillVideo()
 
 	// if the rest of the system has been initialized, shut it down
 		// shut down the system that converts from 8 to 16/32 bpp
-#if !FCEUX_USE_NEW_DVI
+#if !FCEUX_USE_NEW_DVI && !FCEUX_USE_DMA_DVI
   KillBlitToHigh();
 #endif
 
@@ -96,7 +101,7 @@ InitVideo(FCEUGI *gi)
 
 	s_paletterefresh = 1;
 
-#if !FCEUX_USE_NEW_DVI
+#if !FCEUX_USE_NEW_DVI && !FCEUX_USE_DMA_DVI
 	 // if using more than 8bpp, initialize the conversion routines
 	InitBlitToHigh(4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0, 0, 0);
 #endif
@@ -111,32 +116,19 @@ static struct {
 } s_psdl[256];
 
 static uint8 s_palette_rgb332[256];
-static uint16_t s_palette_rgb332_pair[256 * 256];
 
-#if FCEUX_USE_NEW_DVI
 static inline uint32_t Pack4RGB332(const uint8 *src)
 {
-  uint32_t lo = s_palette_rgb332_pair[src[0] | (src[1] << 8)];
-  uint32_t hi = s_palette_rgb332_pair[src[2] | (src[3] << 8)];
-  return lo | (hi << 16);
+  return (uint32_t)s_palette_rgb332[src[0]] |
+         ((uint32_t)s_palette_rgb332[src[1]] << 8) |
+         ((uint32_t)s_palette_rgb332[src[2]] << 16) |
+         ((uint32_t)s_palette_rgb332[src[3]] << 24);
 }
 
-#if FCEUX_NEW_DVI_DIFF
+#if FCEUX_USE_NEW_DVI && FCEUX_NEW_DVI_DIFF
 static uint32_t s_rgb332_prev[(NWIDTH * s_tlines) / 4] __attribute__((aligned(4)));
 static int s_new_dvi_first_frame = 1;
 #endif
-#endif
-
-static void RebuildPalettePairs(void)
-{
-  for (int hi = 0; hi < 256; hi++) {
-    int base = hi << 8;
-    uint16_t hi_part = (uint16_t)s_palette_rgb332[hi] << 8;
-    for (int lo = 0; lo < 256; lo++) {
-      s_palette_rgb332_pair[base | lo] = hi_part | s_palette_rgb332[lo];
-    }
-  }
-}
 
 /**
  * Sets the color for a particular index in the palette.
@@ -164,10 +156,9 @@ BlitScreen(uint8 *XBuf)
 {
 	// refresh the palette if required
 	if(s_paletterefresh) {
-#if !FCEUX_USE_NEW_DVI
+#if !FCEUX_USE_NEW_DVI && !FCEUX_USE_DMA_DVI
 	    SetPaletteBlitToHigh((uint8*)s_psdl);
 #endif
-	    RebuildPalettePairs();
 			s_paletterefresh = 0;
 		}
 
@@ -257,14 +248,33 @@ BlitScreen(uint8 *XBuf)
 	  }
 #endif
 #else
+#if FCEUX_USE_DMA_DVI
+	  volatile uint32_t *dst32 =
+	      (volatile uint32_t *)__am_gpu_dma_frame_begin();
+	  const int words = (NWIDTH * s_tlines) / 4;
+	  int j = 0;
+	  for (; j + 8 <= words; j += 8, XBuf += 32) {
+	    dst32[j + 0] = Pack4RGB332(XBuf + 0);
+	    dst32[j + 1] = Pack4RGB332(XBuf + 4);
+	    dst32[j + 2] = Pack4RGB332(XBuf + 8);
+	    dst32[j + 3] = Pack4RGB332(XBuf + 12);
+	    dst32[j + 4] = Pack4RGB332(XBuf + 16);
+	    dst32[j + 5] = Pack4RGB332(XBuf + 20);
+	    dst32[j + 6] = Pack4RGB332(XBuf + 24);
+	    dst32[j + 7] = Pack4RGB332(XBuf + 28);
+	  }
+	  for (; j < words; j++, XBuf += 4) {
+	    dst32[j] = Pack4RGB332(XBuf);
+	  }
+	  __sync_synchronize();
+	  __am_gpu_dma_frame_submit();
+#else
 	  static uint8 canvas_frame_8bit[NWIDTH * 240] __attribute__((aligned(4)));
 	  static int sync_div = 0;
 	  uint32_t *dst32 = (uint32_t *)canvas_frame_8bit;
 	  int pixels = NWIDTH * s_tlines;
 	  for (int i = 0, j = 0; i < pixels; i += 4, j++) {
-	    uint32_t lo = s_palette_rgb332_pair[XBuf[i] | (XBuf[i + 1] << 8)];
-	    uint32_t hi = s_palette_rgb332_pair[XBuf[i + 2] | (XBuf[i + 3] << 8)];
-	    dst32[j] = lo | (hi << 16);
+	    dst32[j] = Pack4RGB332(XBuf + i);
 	  }
 	  io_write(AM_GPU_FBDRAW, 0, 0, canvas_frame_8bit, NWIDTH, s_tlines, false);
 	  sync_div++;
@@ -272,6 +282,7 @@ BlitScreen(uint8 *XBuf)
 	    io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
 	    sync_div = 0;
 	  }
+#endif
 #endif
 #else
   static uint32_t canvas_line[NWIDTH];

@@ -5,16 +5,17 @@
 #define HAS_GUI
 #define SIZE_OPT
 
-// Fast board profile: draw directly to rtl/ip/new_DVI and remove subsystems
-// that are not needed for the Mario performance run.
-#define FCEUX_USE_NEW_DVI 1
+// The new DVI output is selected by AM; FCEUX renders into an uncached SRAM
+// double buffer and DMA transfers complete RGB332 frames to it.
+#define FCEUX_USE_NEW_DVI 0
+#define FCEUX_USE_DMA_DVI 1
 #define FCEUX_DISABLE_AUDIO 1
 #define FCEUX_DISABLE_INPUT 1
 #define FCEUX_DISABLE_THROTTLE 1
+#define FCEUX_MARIO_NROM_ONLY 1
 #define FCEUX_FAST_MARIO_MEMORY 1
-#define FCEUX_SERIAL_FPS 1
-#define FCEUX_AUTO_START_MARIO 1
-#define FCEUX_NEW_DVI_DIFF 1
+#define FCEUX_SERIAL_FPS 0
+#define FCEUX_NEW_DVI_DIFF 0
 
 #define SOUND_NONE 0
 #define SOUND_LQ   1
@@ -41,7 +42,7 @@
 # define SOUND_CONFIG SOUND_LQ
 # define FUNC_IDX_MAX256
 #else
-# define NR_FRAMESKIP 3
+# define NR_FRAMESKIP 0
 # define SOUND_CONFIG SOUND_NONE
 # define FUNC_IDX_MAX16
 #endif

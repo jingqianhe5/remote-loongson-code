@@ -1,0 +1,24 @@
+{
+  "teacher": {
+    "name": "Qwen2.5-1.5B-Instruct-GGUF",
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "quantization": "Q4_K_M",
+    "license": "Apache-2.0",
+    "file": "models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "size": 1117320736,
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "tag": "b10019",
+    "revision": "ae9291e16b976514bf1f3d7f1616da7db3459496",
+    "backend": "Vulkan",
+    "archive": "tools/llama-b10019-bin-ubuntu-vulkan-x64.tar.gz",
+    "directory": "tools/llama-b10019",
+    "size": 31305309,
+    "sha256": "63b1999cdfdcf6acd979f28db9b8c4276b2328d512f431dd99a00d2399ef98cb",
+    "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10019/llama-b10019-bin-ubuntu-vulkan-x64.tar.gz"
+  }
+}

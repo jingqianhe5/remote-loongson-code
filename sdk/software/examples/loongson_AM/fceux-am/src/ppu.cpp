@@ -20,6 +20,7 @@
  */
 
 #include "types.h"
+#include "config.h"
 #include "x6502.h"
 #include "fceu.h"
 #include "ppu.h"
@@ -33,6 +34,8 @@
 #include "video.h"
 #include "input.h"
 #include "driver.h"
+
+#pragma GCC optimize("O3")
 
 #define debug_loggingCD false
 
@@ -66,8 +69,6 @@ static uint32 ppulut2[256];
 static uint32 ppulut3[128];
 
 static bool new_ppu_reset = false;
-
-int test = 0;
 
 #define _BITS 8
 struct BITREVLUT {
@@ -401,7 +402,11 @@ static void update_PALcache() {
 #define MMC5SPRVRAMADR(V)   &MMC5SPRVPage[(V) >> 10][(V)]
 #define VRAMADR(V)          &VPage[(V) >> 10][(V)]
 
+#if FCEUX_MARIO_NROM_ONLY
+static inline uint8* MMC5BGVRAMADR(uint32 A) { return VRAMADR(A); }
+#else
 uint8* MMC5BGVRAMADR(uint32 A);
+#endif
 
 uint8 READPAL_MOTHEROFALL(uint32 A)
 {
@@ -1210,7 +1215,9 @@ static void Fixit1(void) {
 	}
 }
 
+#if !FCEUX_MARIO_NROM_ONLY
 void MMC5_hb(int);		//Ugh ugh ugh.
+#endif
 static void DoLine(void) {
 	if (scanline >= 240 && scanline != totalscanlines) {
 		X6502_Run(256 + 69);
@@ -1223,7 +1230,9 @@ static void DoLine(void) {
 	uint32 *target = (uint32 *)(XBuf + ((scanline < 240 ? scanline : 240) << 8));
 	//u8* dtarget = XDBuf + ((scanline < 240 ? scanline : 240) << 8);
 
+#if !FCEUX_MARIO_NROM_ONLY
 	if (MMC5Hack) MMC5_hb(scanline);
+#endif
 
 	X6502_Run(256);
 	EndRL();
@@ -1770,7 +1779,9 @@ int FCEUPPU_Loop(int skip) {
 			}
 			DMC_7bit = 0;
 
+#if !FCEUX_MARIO_NROM_ONLY
 			if (MMC5Hack) MMC5_hb(scanline);
+#endif
 
 			//deemph nonsense, kept for complicated reasons (see SetNESDeemph_OldHacky implementation)
 			int maxref = 0;
@@ -2056,8 +2067,10 @@ int FCEUX_PPU_Loop(int skip) {
 
 			//hack to fix SDF ship intro screen with split. is it right?
 			//well, if we didnt do this, we'd be passing in a negative scanline, so that's a sign something is fishy..
+#if !FCEUX_MARIO_NROM_ONLY
 			if(sl != 0)
 				if (MMC5Hack) MMC5_hb(yp);
+#endif
 
 
 			//twiddle the oam buffers
@@ -2358,7 +2371,9 @@ int FCEUX_PPU_Loop(int skip) {
 
 		DMC_7bit = 0;
 
+#if !FCEUX_MARIO_NROM_ONLY
 		if (MMC5Hack) MMC5_hb(240);
+#endif
 
 		//idle for one line
 		runppu(kLineTime);

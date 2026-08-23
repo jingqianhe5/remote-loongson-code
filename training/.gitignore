@@ -1,0 +1,7 @@
+out/
+data/synthetic_train.jsonl
+__pycache__/
+*.pyc
+models/
+tools/
+logs/

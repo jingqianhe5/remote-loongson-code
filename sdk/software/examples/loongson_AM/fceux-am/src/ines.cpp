@@ -20,6 +20,7 @@
  */
 
 #include "types.h"
+#include "config.h"
 #include "x6502.h"
 #include "fceu.h"
 #include "cart.h"
@@ -124,6 +125,7 @@ struct INPSEL {
 	ESIFC inputfc;
 };
 
+#if !FCEUX_MARIO_NROM_ONLY
 static void SetInput(void) {
 	static struct INPSEL moo[] =
 	{
@@ -208,6 +210,7 @@ static void SetInput(void) {
 		x++;
 	}
 }
+#endif
 
 #define INESB_INCOMPLETE  1
 #define INESB_CORRUPT     2
@@ -243,6 +246,7 @@ struct CHINF {
 	const char* params;
 };
 
+#if !FCEUX_MARIO_NROM_ONLY
 static const TMasterRomInfo sMasterRomInfo[] = {
 	{ 0x62b51b108a01d2beULL, "bonus=0" }, //4-in-1 (FK23C8021)[p1][!].nes
 	{ 0x8bb48490d8d22711ULL, "bonus=0" }, //4-in-1 (FK23C8033)[p1][!].nes
@@ -409,6 +413,7 @@ static void CheckHInfo(void) {
 		FCEU_printf("%s", gigastr);
 	}
 }
+#endif
 
 //this is for games that is not the a power of 2
 //mapper based for now...
@@ -428,6 +433,12 @@ static int not_power2[] =
 	53, 198, 228, 547
 };
 
+#if FCEUX_MARIO_NROM_ONLY
+BMAPPINGLocal bmap[] = {
+	{"NROM", 0, NROM_Init},
+	{"",     0, NULL}
+};
+#else
 BMAPPINGLocal bmap[] = {
 	{"NROM",				  0, NROM_Init},
 	{"MMC1",				  1, Mapper1_Init},
@@ -705,9 +716,12 @@ BMAPPINGLocal bmap[] = {
 
 	{"",					0, NULL}
 };
+#endif
 
 int iNESLoad(const char *name, FCEUFILE *fp, int OverwriteVidMode) {
+#if !FCEUX_MARIO_NROM_ONLY
 	struct md5_context md5;
+#endif
 
 	if (FCEU_fread(&head, 1, 16, fp) != 16 || memcmp(&head, "NES\x1A", 4))
 		return 0;
@@ -787,17 +801,31 @@ int iNESLoad(const char *name, FCEUFILE *fp, int OverwriteVidMode) {
 	if (VROM_size)
 		FCEU_fread(VROM, 0x2000, VROM_size, fp);
 
+#if FCEUX_MARIO_NROM_ONLY
+	static const uint8 mario_md5[16] = {
+		0x8e, 0x36, 0x30, 0x18, 0x6e, 0x35, 0xd4, 0x77,
+		0x23, 0x1b, 0xf8, 0xfd, 0x50, 0xe5, 0x4c, 0xdd
+	};
+	memcpy(iNESCart.MD5, mario_md5, sizeof(mario_md5));
+#else
 	md5_starts(&md5);
 	md5_update(&md5, ROM, ROM_size << 14);
-
-	//iNESGameCRC32 = CalcCRC32(0, ROM, ROM_size << 14);
-
-	if (VROM_size) {
-		//iNESGameCRC32 = CalcCRC32(iNESGameCRC32, VROM, VROM_size << 13);
+	if (VROM_size)
 		md5_update(&md5, VROM, VROM_size << 13);
-	}
 	md5_finish(&md5, iNESCart.MD5);
+#endif
 	memcpy(&GameInfo->MD5, &iNESCart.MD5, sizeof(iNESCart.MD5));
+
+#if FCEUX_MARIO_NROM_ONLY
+	// SMB at CPU $8fdc initializes DemoTimer ($07a2) to $18.  Patch only
+	// that immediate operand so the ROM's own demo starts on its first pass.
+	static const uint8 demo_timer_init[] = {0xa9, 0x18, 0x8d, 0xa2, 0x07};
+	const uint32 demo_timer_offset = 0x0fdc;
+	assert(MapperNo == 0 && ROM_size == 2 && VROM_size == 1);
+	assert(memcmp(ROM + demo_timer_offset, demo_timer_init,
+	              sizeof(demo_timer_init)) == 0);
+	ROM[demo_timer_offset + 1] = 0x00;
+#endif
 
 	//iNESCart.CRC32 = iNESGameCRC32;
 
@@ -839,8 +867,10 @@ int iNESLoad(const char *name, FCEUFILE *fp, int OverwriteVidMode) {
 		}
 	}
 
+#if !FCEUX_MARIO_NROM_ONLY
 	SetInput();
 	CheckHInfo();
+#endif
 	{
 		int x;
 		uint64 partialmd5 = 0;

@@ -143,7 +143,7 @@ static void DoFun(int frameskip, int periodic_saves)
 	uint64 emulate_end_ms;
 	uint64 update_end_ms;
 #endif
-#if FCEUX_SERIAL_FPS || FCEUX_AUTO_START_MARIO
+#if FCEUX_SERIAL_FPS
 	static uint32 run_frames = 0;
 #endif
 #if FCEUX_SERIAL_FPS
@@ -154,15 +154,6 @@ static void DoFun(int frameskip, int periodic_saves)
 
 #ifdef FRAMESKIP
 	fskipc = (fskipc + 1) % (frameskip + 1);
-#endif
-
-#if FCEUX_AUTO_START_MARIO
-	{
-		uint32 pad = 0;
-		if (run_frames >= 3 && run_frames < 12) pad |= JOY_START;
-		if (run_frames >= 70) pad |= JOY_RIGHT;
-		FCEUD_SetPadState(pad);
-	}
 #endif
 
 	if(NoWaiting) {
@@ -185,7 +176,7 @@ static void DoFun(int frameskip, int periodic_saves)
 		fps_draw_frames = 0;
 	}
 #endif
-#if FCEUX_SERIAL_FPS || FCEUX_AUTO_START_MARIO
+#if FCEUX_SERIAL_FPS
 	run_frames++;
 #endif
 #if FCEUX_RUNTIME_LOG

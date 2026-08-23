@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Tue Jul 14 23:08:48 2026
+| Date         : Wed Jul 22 21:32:05 2026
 | Host         : hjq running 64-bit Ubuntu 24.04.4 LTS
 | Command      : report_bus_skew -warn_on_violation -file soc_top_bus_skew_routed.rpt -pb soc_top_bus_skew_routed.pb -rpx soc_top_bus_skew_routed.rpx
 | Design       : soc_top
@@ -24,16 +24,16 @@ Id  Position  From                            To                              Co
 --  --------  ------------------------------  ------------------------------  ------  ---------------  ----------  ---------
 1   37        [get_cells [list {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[0]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[1]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[2]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[3]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[4]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[5]}]]
                                               [get_cells [list {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][1]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][2]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][3]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][4]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][5]}]]
-                                                                              Slow             20.000       0.669     19.331
+                                                                              Slow             20.000       0.822     19.178
 2   39        [get_cells [list {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[0]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[1]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[2]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[3]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[4]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/src_gray_ff_reg[5]}]]
                                               [get_cells [list {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][1]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][2]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][3]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][4]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][5]}]]
-                                                                              Slow             20.000       0.879     19.121
+                                                                              Slow             20.000       0.782     19.218
 3   41        [get_cells [list {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[0]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[1]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[2]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[3]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[4]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[5]}]]
                                               [get_cells [list {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][0]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][1]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][2]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][3]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][4]} {u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][5]}]]
-                                                                              Slow             20.000       1.002     18.998
+                                                                              Slow             20.000       0.793     19.207
 4   43        [get_cells [list {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[0]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[1]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[2]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[3]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[4]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/src_gray_ff_reg[5]}]]
                                               [get_cells [list {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][0]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][1]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][2]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][3]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][4]} {u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][5]}]]
-                                                                              Slow             20.000       0.999     19.001
+                                                                              Slow             20.000       1.217     18.783
 
 
 2. Bus Skew Report Per Constraint
@@ -46,12 +46,12 @@ Endpoints: 6
 
 From Clock            To Clock              Endpoint Pin                    Reference Pin                   Corner  Actual(ns)  Slack(ns)
 --------------------  --------------------  ------------------------------  ------------------------------  ------  ----------  ---------
-tpu_clk               cpu_clk               u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][4]/D
-                                                                            u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][5]/D
-                                                                                                            Slow         0.669     19.331
+tpu_clk               cpu_clk               u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/D
+                                                                            u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][3]/D
+                                                                                                            Slow         0.822     19.178
 
 
-Slack (MET) :             19.331ns  (requirement - actual skew)
+Slack (MET) :             19.178ns  (requirement - actual skew)
   Endpoint Source:        soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
                             (rising edge-triggered cell FDRE clocked by tpu_clk)
   Endpoint Destination:   soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
@@ -62,10 +62,10 @@ Slack (MET) :             19.331ns  (requirement - actual skew)
                             (rising edge-triggered cell FDRE clocked by cpu_clk)
   Path Type:              Bus Skew (Max at Slow Process Corner)
   Requirement:            20.000ns
-  Endpoint Relative Delay:    1.534ns
-  Reference Relative Delay:   0.476ns
-  Relative CRPR:              0.388ns
-  Actual Bus Skew:            0.669ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
+  Endpoint Relative Delay:    1.720ns
+  Reference Relative Delay:   0.516ns
+  Relative CRPR:              0.381ns
+  Actual Bus Skew:            0.822ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
 
 Endpoint path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -79,12 +79,12 @@ Endpoint path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.854    -2.488    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X139Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.836    -2.506    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y94         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X139Y70        FDRE (Prop_fdre_C_Q)         0.456    -2.032 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.833    -1.199    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X143Y69        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y94         FDRE (Prop_fdre_C_Q)         0.456    -2.050 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.951    -1.098    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y89         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock cpu_clk rise edge)    0.000     0.000 r  
@@ -96,15 +96,15 @@ Endpoint path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.790    -2.038    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X143Y69        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism             -0.601    -2.639    
-    SLICE_X143Y69        FDRE (Setup_fdre_C_D)       -0.093    -2.732    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.706    -2.122    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y89         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism             -0.601    -2.723    
+    SLICE_X89Y89         FDRE (Setup_fdre_C_D)       -0.095    -2.818    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.199    
-                         clock arrival                         -2.732    
+                         data arrival                          -1.098    
+                         clock arrival                         -2.818    
   -------------------------------------------------------------------
-                         relative delay                         1.534    
+                         relative delay                         1.720    
 
 Reference path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -118,12 +118,12 @@ Reference path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.728    -2.100    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X139Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.709    -2.119    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y97         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X139Y70        FDRE (Prop_fdre_C_Q)         0.337    -1.763 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.507    -1.256    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X144Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y97         FDRE (Prop_fdre_C_Q)         0.337    -1.782 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.421    -1.361    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y90         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock cpu_clk rise edge)    0.000     0.000 r  
@@ -135,15 +135,15 @@ Reference path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.917    -2.425    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X144Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism              0.601    -1.824    
-    SLICE_X144Y70        FDRE (Hold_fdre_C_D)         0.091    -1.733    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.834    -2.508    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y90         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism              0.601    -1.907    
+    SLICE_X89Y90         FDRE (Hold_fdre_C_D)         0.029    -1.878    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.256    
-                         clock arrival                         -1.733    
+                         data arrival                          -1.361    
+                         clock arrival                         -1.878    
   -------------------------------------------------------------------
-                         relative delay                         0.476    
+                         relative delay                         0.516    
 
 
 
@@ -154,12 +154,12 @@ Endpoints: 6
 
 From Clock            To Clock              Endpoint Pin                    Reference Pin                   Corner  Actual(ns)  Slack(ns)
 --------------------  --------------------  ------------------------------  ------------------------------  ------  ----------  ---------
-cpu_clk               tpu_clk               u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/D
-                                                                            u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][2]/D
-                                                                                                            Slow         0.879     19.121
+cpu_clk               tpu_clk               u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][3]/D
+                                                                            u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][5]/D
+                                                                                                            Slow         0.782     19.218
 
 
-Slack (MET) :             19.121ns  (requirement - actual skew)
+Slack (MET) :             19.218ns  (requirement - actual skew)
   Endpoint Source:        soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
                             (rising edge-triggered cell FDRE clocked by cpu_clk)
   Endpoint Destination:   soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
@@ -170,10 +170,10 @@ Slack (MET) :             19.121ns  (requirement - actual skew)
                             (rising edge-triggered cell FDRE clocked by tpu_clk)
   Path Type:              Bus Skew (Max at Slow Process Corner)
   Requirement:            20.000ns
-  Endpoint Relative Delay:    1.679ns
-  Reference Relative Delay:   0.419ns
-  Relative CRPR:              0.381ns
-  Actual Bus Skew:            0.879ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
+  Endpoint Relative Delay:    1.487ns
+  Reference Relative Delay:   0.340ns
+  Relative CRPR:              0.366ns
+  Actual Bus Skew:            0.782ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
 
 Endpoint path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -187,12 +187,12 @@ Endpoint path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        2.035    -2.307    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X120Y23        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.674    -2.668    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y144        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X120Y23        FDRE (Prop_fdre_C_Q)         0.518    -1.789 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.845    -0.943    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X118Y23        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y144        FDRE (Prop_fdre_C_Q)         0.419    -2.249 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.592    -1.657    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X93Y145        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock tpu_clk rise edge)    0.000     0.000 r  
@@ -204,15 +204,15 @@ Endpoint path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.902    -1.927    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X118Y23        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism             -0.601    -2.528    
-    SLICE_X118Y23        FDRE (Setup_fdre_C_D)       -0.095    -2.623    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.550    -2.278    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X93Y145        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism             -0.601    -2.879    
+    SLICE_X93Y145        FDRE (Setup_fdre_C_D)       -0.265    -3.144    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -0.943    
-                         clock arrival                         -2.623    
+                         data arrival                          -1.657    
+                         clock arrival                         -3.144    
   -------------------------------------------------------------------
-                         relative delay                         1.679    
+                         relative delay                         1.487    
 
 Reference path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -226,12 +226,12 @@ Reference path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.900    -1.929    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X119Y25        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.555    -2.273    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y149        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X119Y25        FDRE (Prop_fdre_C_Q)         0.367    -1.562 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.464    -1.097    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X118Y24        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y149        FDRE (Prop_fdre_C_Q)         0.367    -1.906 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.420    -1.486    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X94Y149        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock tpu_clk rise edge)    0.000     0.000 r  
@@ -243,15 +243,15 @@ Reference path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       2.032    -2.310    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X118Y24        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism              0.601    -1.709    
-    SLICE_X118Y24        FDRE (Hold_fdre_C_D)         0.192    -1.517    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.672    -2.670    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X94Y149        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism              0.601    -2.069    
+    SLICE_X94Y149        FDRE (Hold_fdre_C_D)         0.243    -1.826    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.097    
-                         clock arrival                         -1.517    
+                         data arrival                          -1.486    
+                         clock arrival                         -1.826    
   -------------------------------------------------------------------
-                         relative delay                         0.419    
+                         relative delay                         0.340    
 
 
 
@@ -262,12 +262,12 @@ Endpoints: 6
 
 From Clock            To Clock              Endpoint Pin                    Reference Pin                   Corner  Actual(ns)  Slack(ns)
 --------------------  --------------------  ------------------------------  ------------------------------  ------  ----------  ---------
-cpu_clk               tpu_clk               u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][3]/D
-                                                                            u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][5]/D
-                                                                                                            Slow         1.002     18.998
+cpu_clk               tpu_clk               u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][1]/D
+                                                                            u_tpu_lacc_cmd_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][3]/D
+                                                                                                            Slow         0.793     19.207
 
 
-Slack (MET) :             18.998ns  (requirement - actual skew)
+Slack (MET) :             19.207ns  (requirement - actual skew)
   Endpoint Source:        soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
                             (rising edge-triggered cell FDRE clocked by cpu_clk)
   Endpoint Destination:   soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
@@ -278,10 +278,10 @@ Slack (MET) :             18.998ns  (requirement - actual skew)
                             (rising edge-triggered cell FDRE clocked by tpu_clk)
   Path Type:              Bus Skew (Max at Slow Process Corner)
   Requirement:            20.000ns
-  Endpoint Relative Delay:    1.734ns
-  Reference Relative Delay:   0.351ns
-  Relative CRPR:              0.381ns
-  Actual Bus Skew:            1.002ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
+  Endpoint Relative Delay:    1.692ns
+  Reference Relative Delay:   0.534ns
+  Relative CRPR:              0.365ns
+  Actual Bus Skew:            0.793ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
 
 Endpoint path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -295,12 +295,12 @@ Endpoint path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.855    -2.487    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X138Y69        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.824    -2.518    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y98         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X138Y69        FDRE (Prop_fdre_C_Q)         0.419    -2.068 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.824    -1.244    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X138Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y98         FDRE (Prop_fdre_C_Q)         0.419    -2.099 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.790    -1.309    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y92         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock tpu_clk rise edge)    0.000     0.000 r  
@@ -312,15 +312,15 @@ Endpoint path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.728    -2.100    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X138Y70        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism             -0.601    -2.701    
-    SLICE_X138Y70        FDRE (Setup_fdre_C_D)       -0.277    -2.978    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.694    -2.134    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y92         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism             -0.601    -2.735    
+    SLICE_X86Y92         FDRE (Setup_fdre_C_D)       -0.266    -3.001    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.244    
-                         clock arrival                         -2.978    
+                         data arrival                          -1.309    
+                         clock arrival                         -3.001    
   -------------------------------------------------------------------
-                         relative delay                         1.734    
+                         relative delay                         1.692    
 
 Reference path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -334,12 +334,12 @@ Reference path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.727    -2.101    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X137Y71        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.693    -2.135    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y90         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X137Y71        FDRE (Prop_fdre_C_Q)         0.367    -1.734 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.366    -1.368    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X138Y71        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X86Y90         FDRE (Prop_fdre_C_Q)         0.337    -1.798 r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.453    -1.345    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y88         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock tpu_clk rise edge)    0.000     0.000 r  
@@ -351,15 +351,15 @@ Reference path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.853    -2.489    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X138Y71        FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism              0.601    -1.888    
-    SLICE_X138Y71        FDRE (Hold_fdre_C_D)         0.169    -1.719    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.833    -2.509    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X89Y88         FDRE                                         r  soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism              0.601    -1.908    
+    SLICE_X89Y88         FDRE (Hold_fdre_C_D)         0.029    -1.879    soc_top/tpu_result_async_fifo/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.368    
-                         clock arrival                         -1.719    
+                         data arrival                          -1.345    
+                         clock arrival                         -1.879    
   -------------------------------------------------------------------
-                         relative delay                         0.351    
+                         relative delay                         0.534    
 
 
 
@@ -371,11 +371,11 @@ Endpoints: 6
 From Clock            To Clock              Endpoint Pin                    Reference Pin                   Corner  Actual(ns)  Slack(ns)
 --------------------  --------------------  ------------------------------  ------------------------------  ------  ----------  ---------
 tpu_clk               cpu_clk               u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][5]/D
-                                                                            u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][4]/D
-                                                                                                            Slow         0.999     19.001
+                                                                            u_tpu_result_async_fifo/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/D
+                                                                                                            Slow         1.217     18.783
 
 
-Slack (MET) :             19.001ns  (requirement - actual skew)
+Slack (MET) :             18.783ns  (requirement - actual skew)
   Endpoint Source:        soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
                             (rising edge-triggered cell FDRE clocked by tpu_clk)
   Endpoint Destination:   soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
@@ -386,10 +386,10 @@ Slack (MET) :             19.001ns  (requirement - actual skew)
                             (rising edge-triggered cell FDRE clocked by cpu_clk)
   Path Type:              Bus Skew (Max at Slow Process Corner)
   Requirement:            20.000ns
-  Endpoint Relative Delay:    1.928ns
-  Reference Relative Delay:   0.500ns
-  Relative CRPR:              0.429ns
-  Actual Bus Skew:            0.999ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
+  Endpoint Relative Delay:    1.757ns
+  Reference Relative Delay:   0.366ns
+  Relative CRPR:              0.175ns
+  Actual Bus Skew:            1.217ns  (Endpoint Relative Delay - Reference Relative Delay - Relative CRPR)
 
 Endpoint path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -403,12 +403,12 @@ Endpoint path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.859    -2.483    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X107Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.659    -2.683    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y150        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X107Y51        FDRE (Prop_fdre_C_Q)         0.419    -2.064 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           1.029    -1.034    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X105Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X97Y150        FDRE (Prop_fdre_C_Q)         0.419    -2.264 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.925    -1.339    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X96Y150        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock cpu_clk rise edge)    0.000     0.000 r  
@@ -420,15 +420,15 @@ Endpoint path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.732    -2.096    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X105Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism             -0.601    -2.697    
-    SLICE_X105Y51        FDRE (Setup_fdre_C_D)       -0.265    -2.962    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.539    -2.290    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X96Y150        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism             -0.601    -2.891    
+    SLICE_X96Y150        FDRE (Setup_fdre_C_D)       -0.206    -3.097    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.034    
-                         clock arrival                         -2.962    
+                         data arrival                          -1.339    
+                         clock arrival                         -3.097    
   -------------------------------------------------------------------
-                         relative delay                         1.928    
+                         relative delay                         1.757    
 
 Reference path:
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -442,12 +442,12 @@ Reference path:
                                                      -8.248    -5.674 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.755    -3.919    pll_clk.u_clk_pll/inst/clk_out3_clk_pll
     BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.091    -3.828 r  pll_clk.u_clk_pll/inst/clkout3_buf/O
-                         net (fo=11454, routed)       1.732    -2.096    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X107Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=11453, routed)       1.551    -2.277    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X95Y148        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
-    SLICE_X107Y51        FDRE (Prop_fdre_C_Q)         0.367    -1.729 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         net (fo=1, routed)           0.516    -1.213    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X105Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X95Y148        FDRE (Prop_fdre_C_Q)         0.367    -1.910 r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=1, routed)           0.399    -1.511    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X95Y147        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------    -------------------
 
                          (clock cpu_clk rise edge)    0.000     0.000 r  
@@ -459,15 +459,15 @@ Reference path:
                                                      -8.991    -6.275 r  pll_clk.u_clk_pll/inst/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.837    -4.438    pll_clk.u_clk_pll/inst/cpu_clk_clk_pll
     BUFGCTRL_X0Y18       BUFG (Prop_bufg_I_O)         0.096    -4.342 r  pll_clk.u_clk_pll/inst/clkout1_buf/O
-                         net (fo=7858, routed)        1.859    -2.483    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-    SLICE_X105Y51        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
-                         clock pessimism              0.601    -1.882    
-    SLICE_X105Y51        FDRE (Hold_fdre_C_D)         0.169    -1.713    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         net (fo=7858, routed)        1.672    -2.670    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+    SLICE_X95Y147        FDRE                                         r  soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
+                         clock pessimism              0.601    -2.069    
+    SLICE_X95Y147        FDRE (Hold_fdre_C_D)         0.192    -1.877    soc_top/tpu_result_async_fifo_HD2/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>
   -------------------------------------------------------------------
-                         data arrival                          -1.213    
-                         clock arrival                         -1.713    
+                         data arrival                          -1.511    
+                         clock arrival                         -1.877    
   -------------------------------------------------------------------
-                         relative delay                         0.500    
+                         relative delay                         0.366    
 
 
 

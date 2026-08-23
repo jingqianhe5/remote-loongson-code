@@ -5,11 +5,14 @@ from pathlib import Path
 
 roms = []
 cwd = Path('.')
+selected = set(filter(None, os.environ.get('ROM_NAMES', '').split(',')))
 
 (cwd / 'gen').mkdir(exist_ok=True)
 
 for f in cwd.glob('rom/*.nes'):
   name = f.stem
+  if selected and name not in selected:
+    continue
   if not (cwd / 'gen' / f'{name}.c').exists():
     os.system(f'echo "const " > gen/{name}.c')
     os.system(f'xxd -i "{f}" >> gen/{name}.c')

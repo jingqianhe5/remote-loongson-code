@@ -7,7 +7,7 @@ input wire              per_img_vsync,
 input wire              per_img_href,        
 input wire              per_img_de,          
 input wire [23:0]       per_img_data, 
-input wire signed[7 :0]       brightness_thresh,
+input wire [7:0]        brightness_thresh,
 input wire [7 :0]       contrast_thresh,
                                 
 output                  post_img_vsync,      

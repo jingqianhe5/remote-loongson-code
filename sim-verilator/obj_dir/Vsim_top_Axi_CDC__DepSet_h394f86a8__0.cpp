@@ -247,12 +247,12 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top_
             = vlSelf->__PVT__wFifo__DOT__pushToPopGray_buffercc__DOT__buffers_0;
         vlSelf->__PVT__awFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 
             = vlSelf->__PVT__awFifo__DOT__pushToPopGray_buffercc__DOT__buffers_0;
+        vlSelf->__PVT__arFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 
+            = vlSelf->__PVT__arFifo__DOT__pushToPopGray_buffercc__DOT__buffers_0;
         if (vlSelf->__PVT__wFifo__DOT__popCC_addressGen_ready) {
             vlSelf->__PVT__wFifo__DOT__popCC_addressGen_rValid 
                 = (1U & (~ (IData)(vlSelf->__PVT__wFifo__DOT__popCC_empty)));
         }
-        vlSelf->__PVT__arFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 
-            = vlSelf->__PVT__arFifo__DOT__pushToPopGray_buffercc__DOT__buffers_0;
         if (vlSelf->__PVT__arFifo__DOT__popCC_addressGen_fire) {
             vlSelf->__PVT__arFifo__DOT__popCC_popPtr 
                 = vlSelf->__PVT__arFifo__DOT__popCC_popPtrPlus;
@@ -279,8 +279,8 @@ VL_INLINE_OPT void Vsim_top_Axi_CDC___nba_sequent__TOP__sim_top__DOT__u_soc_top_
         vlSelf->__PVT__awFifo__DOT__popCC_ptrToOccupancy = 0U;
         vlSelf->__PVT__wFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 = 0U;
         vlSelf->__PVT__awFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 = 0U;
-        vlSelf->__PVT__wFifo__DOT__popCC_addressGen_rValid = 0U;
         vlSelf->__PVT__arFifo__DOT__pushToPopGray_buffercc__DOT__buffers_1 = 0U;
+        vlSelf->__PVT__wFifo__DOT__popCC_addressGen_rValid = 0U;
         vlSelf->__PVT__wFifo__DOT__popCC_ptrToPush = 0U;
         vlSelf->__PVT__awFifo__DOT__popCC_ptrToPush = 0U;
         vlSelf->__PVT__arFifo__DOT__popCC_ptrToPush = 0U;

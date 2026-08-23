@@ -19,17 +19,32 @@
  */
 
 #include "types.h"
+#include "config.h"
 #include "x6502.h"
 #include "fceu.h"
 #include "sound.h"
+#include "cart.h"
+#include "ines.h"
 
 #include "x6502abbrev.h"
 
 X6502 X;
 uint32 timestamp;
+#if !FCEUX_DISABLE_AUDIO
 uint32 soundtimestamp;
+#endif
+#if !FCEUX_MARIO_NROM_ONLY
 void (*MapIRQHook)(int a);
+#endif
 
+#if FCEUX_MARIO_NROM_ONLY && FCEUX_DISABLE_AUDIO
+#define ADDCYC(x) \
+{                 \
+ int __x=x;       \
+ _count-=__x*48;  \
+ timestamp+=__x;  \
+}
+#else
 #define ADDCYC(x) \
 {                 \
  int __x=x;       \
@@ -38,17 +53,40 @@ void (*MapIRQHook)(int a);
  timestamp+=__x;  \
  if(!overclocking) soundtimestamp+=__x; \
 }
+#endif
 
 //normal memory read
 static INLINE uint8 RdMem(unsigned int A)
 {
+#if FCEUX_MARIO_NROM_ONLY
+ A&=0xffff;
+ if(A<0x2000) return(_DB=RAM[A&0x7ff]);
+ if(A>=0x8000) return(_DB=ROM[A-0x8000]);
+ return(_DB=GetReadHandler(A)(A));
+#else
  return(_DB=readb(A));
+#endif
 }
+
+#if FCEUX_MARIO_NROM_ONLY
+#define RdPC(A) (_DB=prg[(uint16)(A)-0x8000])
+#else
+#define RdPC(A) RdMem(A)
+#endif
 
 //normal memory write
 static INLINE void WrMem(unsigned int A, uint8 V)
 {
+#if FCEUX_MARIO_NROM_ONLY
+	A&=0xffff;
+	if(A<0x2000) {
+		RAM[A&0x7ff]=V;
+		return;
+	}
+	GetWriteHandler(A)(A,V);
+#else
 	writeb(A, V);
+#endif
 }
 
 static INLINE uint8 RdRAM(unsigned int A)
@@ -97,7 +135,7 @@ static uint8 ZNTable[256];
  {  \
   uint32 tmp;  \
   int32 disp;  \
-  disp=(int8)RdMem(_PC);  \
+  disp=(int8)RdPC(_PC);  \
   _PC++;  \
   ADDCYC(1);  \
   tmp=_PC;  \
@@ -191,9 +229,9 @@ static uint8 ZNTable[256];
 /* Absolute */
 #define GetAB(target)   \
 {  \
- target=RdMem(_PC);  \
+ target=RdPC(_PC);  \
  _PC++;  \
- target|=RdMem(_PC)<<8;  \
+ target|=RdPC(_PC)<<8;  \
  _PC++;  \
 }
 
@@ -226,14 +264,14 @@ static uint8 ZNTable[256];
 /* Zero Page */
 #define GetZP(target)  \
 {  \
- target=RdMem(_PC);   \
+ target=RdPC(_PC);   \
  _PC++;  \
 }
 
 /* Zero Page Indexed */
 #define GetZPI(target,i)  \
 {  \
- target=i+RdMem(_PC);  \
+ target=i+RdPC(_PC);  \
  _PC++;  \
 }
 
@@ -241,7 +279,7 @@ static uint8 ZNTable[256];
 #define GetIX(target)  \
 {  \
  uint8 tmp;  \
- tmp=RdMem(_PC);  \
+ tmp=RdPC(_PC);  \
  _PC++;  \
  tmp+=_X;  \
  target=RdRAM(tmp);  \
@@ -254,7 +292,7 @@ static uint8 ZNTable[256];
 {  \
  unsigned int rt;  \
  uint8 tmp;  \
- tmp=RdMem(_PC);  \
+ tmp=RdPC(_PC);  \
  _PC++;  \
  rt=RdRAM(tmp);  \
  tmp++;  \
@@ -274,7 +312,7 @@ static uint8 ZNTable[256];
 {  \
  unsigned int rt;  \
  uint8 tmp;  \
- tmp=RdMem(_PC);  \
+ tmp=RdPC(_PC);  \
  _PC++;  \
  rt=RdRAM(tmp);  \
  tmp++;  \
@@ -300,7 +338,7 @@ static uint8 ZNTable[256];
 #define RMW_ZP(op)  {uint8 A; uint8 x; GetZP(A); x=RdRAM(A); op; WrRAM(A,x); break; }
 #define RMW_ZPX(op) {uint8 A; uint8 x; GetZPI(A,_X); x=RdRAM(A); op; WrRAM(A,x); break;}
 
-#define LD_IM(op)  {uint8 x; x=RdMem(_PC); _PC++; op; break;}
+#define LD_IM(op)  {uint8 x; x=RdPC(_PC); _PC++; op; break;}
 #define LD_ZP(op)  {uint8 A; uint8 x; GetZP(A); x=RdRAM(A); op; break;}
 #define LD_ZPX(op)  {uint8 A; uint8 x; GetZPI(A,_X); x=RdRAM(A); op; break;}
 #define LD_ZPY(op)  {uint8 A; uint8 x; GetZPI(A,_Y); x=RdRAM(A); op; break;}
@@ -397,23 +435,30 @@ void X6502_Power(void)
 {
  _count=_tcount=_IRQlow=_PC=_A=_X=_Y=_P=_PI=_DB=_jammed=0;
  _S=0xFD;
- timestamp=soundtimestamp=0;
+ timestamp=0;
+#if !FCEUX_DISABLE_AUDIO
+ soundtimestamp=0;
+#endif
  X6502_Reset();
  //StackAddrBackup = -1;
 }
 
 void X6502_Run(int32 cycles)
 {
+#if FCEUX_MARIO_NROM_ONLY
+  uint8 *const prg=ROM;
+#endif
   if(PAL)
    cycles*=15;    // 15*4=60
   else
    cycles*=16;    // 16*4=64
 
   _count+=cycles;
-extern int test; test++;
   while(_count>0)
   {
+#if !FCEUX_MARIO_NROM_ONLY || !FCEUX_DISABLE_AUDIO
    int32 temp;
+#endif
    uint8 b1;
 
    if(_IRQlow)
@@ -476,16 +521,18 @@ extern int test; test++;
    //IncrementInstructionsCounters();
 
    _PI=_P;
-   b1=RdMem(_PC);
+   b1=RdPC(_PC);
 
    ADDCYC(CycTable[b1]);
 
+#if !FCEUX_MARIO_NROM_ONLY || !FCEUX_DISABLE_AUDIO
    temp=_tcount;
    _tcount=0;
    if(MapIRQHook) MapIRQHook(temp);
 
    if (!overclocking)
     FCEU_SoundCPUHook(temp);
+#endif
 
    uint32 lastPC = _PC;
    _PC++;

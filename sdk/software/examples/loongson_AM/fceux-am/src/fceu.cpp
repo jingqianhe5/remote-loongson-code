@@ -36,6 +36,8 @@
 #include "file.h"
 #include "ines.h"
 
+#pragma GCC optimize("O3")
+
 extern void RefreshThrottleFPS();
 
 #include "drivers/sdl/sdl.h"
@@ -327,10 +329,14 @@ void ResetGameLoaded(void) {
 	GameHBIRQHook = NULL;
 	FFCEUX_PPURead = NULL;
 	FFCEUX_PPUWrite = NULL;
+#if !FCEUX_DISABLE_AUDIO
 	if (GameExpSound.Kill)
 		GameExpSound.Kill();
 	memset(&GameExpSound, 0, sizeof(GameExpSound));
+#endif
+#if !FCEUX_MARIO_NROM_ONLY
 	MapIRQHook = NULL;
+#endif
 	MMC5Hack = 0;
 	PEC586Hack = 0;
 	QTAIHack = 0;
@@ -511,7 +517,9 @@ void FCEUI_Emulate(uint8 **pXBuf, int32 **SoundBuf, int32 *SoundBufSize, int ski
 		}
 	}
 
+#if !FCEUX_DISABLE_INPUT
 	FCEU_UpdateInput();
+#endif
 
 	FCEUPPU_Loop(skip);
 
@@ -522,7 +530,9 @@ void FCEUI_Emulate(uint8 **pXBuf, int32 **SoundBuf, int32 *SoundBufSize, int ski
 
 	timestampbase += timestamp;
 	timestamp = 0;
+#if !FCEUX_DISABLE_AUDIO
 	soundtimestamp = 0;
+#endif
 
 	*pXBuf = skip ? 0 : XBuf;
   if (skip == 2) { //If skip = 2, then bypass sound
@@ -631,7 +641,9 @@ void FCEU_ResetVidSys(void) {
 	normalscanlines = (dendy ? 290 : 240)+newppu; // use flag as number!
 	totalscanlines = normalscanlines + (overclock_enabled ? postrenderscanlines : 0);
 	FCEUPPU_SetVideoSystem(w || dendy);
-  SetSoundVariables();
+#if !FCEUX_DISABLE_AUDIO
+	SetSoundVariables();
+#endif
 }
 
 FCEUS FSettings;

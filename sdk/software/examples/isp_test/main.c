@@ -30,8 +30,8 @@ int main(int argc, char** argv)
     *(volatile unsigned int *)(ISP_BASE + 0x10) = 0x00;  //R
     *(volatile unsigned int *)(ISP_BASE + 0x14) = 0x00;  //G    
     *(volatile unsigned int *)(ISP_BASE + 0x18) = 0x00;  //B  
-    *(volatile unsigned int *)(ISP_BASE + 0x1C) = 0x80;  //宽度
-    *(volatile unsigned int *)(ISP_BASE + 0x20) = 0x80;  //长度
+    *(volatile unsigned int *)(ISP_BASE + 0x1C) = 1920;  //宽度
+    *(volatile unsigned int *)(ISP_BASE + 0x20) = 1080;  //高度
     *(volatile unsigned int *)(ISP_BASE + 0x00) = 0x01;   //启动！！！！！
     printf("working\n");
 

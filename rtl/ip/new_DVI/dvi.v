@@ -87,7 +87,6 @@ assign s_rresp=2'b0;
 wire ar_enter = s_arvalid & s_arready;
 wire r_retire = s_rvalid & s_rready & s_rlast;
 wire aw_enter = s_awvalid & s_awready;
-wire w_enter  = s_wvalid; // s_wlast 判断在FSM中处理
 wire b_retire = s_bvalid_t & s_bready;
 
 assign s_arready = ~busy & (!R_or_W| !s_awvalid);
@@ -160,6 +159,7 @@ reg [31:0] captured_wdata;  // 捕获32位写入数据
 reg [31:0] captured_awaddr; // 捕获AXI写入的基地址
 reg [ID_WIDTH-1:0]  captured_awid;   // 捕获AXI ID，用于BRESP
 reg [3:0] captured_wstrb;   // 捕获AXI字节写使能
+reg captured_wlast;
  
 // 输出给 DVI_Controller 的信号
 reg  dvi_write_en_o;    // Active high, pulsed for one cycle per byte write
@@ -175,6 +175,7 @@ always @(posedge aclk) begin
         captured_awaddr <= 32'b0;
         captured_awid <= {ID_WIDTH{1'b0}};
         captured_wstrb <= 4'b0;
+        captured_wlast <= 1'b0;
         s_bid_t <= {ID_WIDTH{1'b0}};
         s_bresp_t <= 2'b00;
         dvi_enable_reg <= 1'b0;
@@ -208,17 +209,22 @@ always @(posedge aclk) begin
             end
             S_CAP_AXI: begin
                 current_s_wready <= 1'b1;
-                if (s_wvalid && s_wlast) begin
+                if (s_wvalid && current_s_wready) begin
                     captured_wdata <= s_wdata;
                     captured_wstrb <= s_wstrb;
+                    captured_wlast <= s_wlast;
                     current_s_wready <= 1'b0;
                     if (captured_awaddr == DVI_CTRL_ADDR) begin
                         dvi_enable_reg <= s_wdata[0];
                         write_fsm_state <= S_RESP_B;
                     end else if ((captured_awaddr >= DVI_MEM_BASE) && (captured_awaddr < DVI_MEM_LIMIT) && dvi_enable_reg) begin
                         write_fsm_state <= S_WR_BYTE0;
-                    end else begin
+                    end else if (s_wlast) begin
                         write_fsm_state <= S_RESP_B;
+                    end else begin
+                        if (buf_burst == 2'b01)
+                            captured_awaddr <= captured_awaddr + (32'd1 << buf_size);
+                        current_s_wready <= 1'b1;
                     end
                 end
             end
@@ -245,14 +251,21 @@ always @(posedge aclk) begin
                 dvi_write_en_o   <= captured_wstrb[3];
                 dvi_write_addr_o <= captured_awaddr + 32'd3;     // 基地址 + 3
                 dvi_write_data_o <= captured_wdata[31:24];       // MSB字节
-                write_fsm_state  <= S_RESP_B;                    // 所有字节写入完成，准备响应AXI master
+                if (captured_wlast) begin
+                    write_fsm_state <= S_RESP_B;
+                end else begin
+                    if (buf_burst == 2'b01)
+                        captured_awaddr <= captured_awaddr + (32'd1 << buf_size);
+                    current_s_wready <= 1'b1;
+                    write_fsm_state <= S_CAP_AXI;
+                end
             end
             S_RESP_B: begin
                 current_s_wready <= 1'b0; // 内部事务完成，不需要再接受WDATA
                 s_bvalid_t <= 1'b1;         // 向上游AXI master发送响应
                 s_bid_t   <= captured_awid;   // 返回捕获的ID
                 s_bresp_t <= 2'b00;         // OKAY 响应
-                if (s_bready) begin       // 如果AXI master接收了响应
+                if (s_bvalid_t && s_bready) begin // BVALID保持到真正握手
                     s_bvalid_t <= 1'b0;
                     write_fsm_state <= S_IDLE; // 返回空闲状态
                 end

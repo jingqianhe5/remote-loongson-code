@@ -1953,31 +1953,6 @@ VL_INLINE_OPT void Vsim_top_arbiter__P3_A1_AB1_AD1___nba_sequent__TOP__sim_top__
             [0U]) | (2U & ((~ ((IData)(vlSelf->__Vcellinp__priority_encoder_masked__input_unencoded) 
                                >> 2U)) << 1U)));
     vlSelf->__PVT__grant_next = 0U;
-    vlSelf->__PVT__grant_encoded_next = 0U;
-    if (((IData)(vlSelf->__PVT__grant_valid_reg) & 
-         (~ (IData)((0U != ((IData)(vlSelf->__PVT__grant_reg) 
-                            & (IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__u_AXI_top__DOT__u_axi_crossbar__DOT__axi_crossbar_rd_inst__DOT__m_ifaces__BRA__1__KET____DOT__a_acknowledge))))))) {
-        vlSelf->__PVT__grant_valid_next = vlSelf->__PVT__grant_valid_reg;
-        vlSelf->__PVT__grant_next = vlSelf->__PVT__grant_reg;
-        vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__grant_encoded_reg;
-    } else if ((1U & vlSelf->__PVT__priority_encoder_inst__DOT__stage_valid
-                [1U])) {
-        vlSelf->__PVT__grant_valid_next = 1U;
-        if ((1U & vlSelf->__PVT__priority_encoder_masked__DOT__stage_valid
-             [1U])) {
-            vlSelf->__PVT__grant_next = (7U & ((IData)(1U) 
-                                               << vlSelf->__PVT__priority_encoder_masked__DOT__stage_enc
-                                               [1U]));
-            vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__priority_encoder_masked__DOT__stage_enc
-                [1U];
-        } else {
-            vlSelf->__PVT__grant_next = (7U & ((IData)(1U) 
-                                               << vlSelf->__PVT__priority_encoder_inst__DOT__stage_enc
-                                               [1U]));
-            vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__priority_encoder_inst__DOT__stage_enc
-                [1U];
-        }
-    }
     vlSelf->__PVT__mask_next = vlSelf->__PVT__mask_reg;
     if ((1U & (~ ((IData)(vlSelf->__PVT__grant_valid_reg) 
                   & (~ (IData)((0U != ((IData)(vlSelf->__PVT__grant_reg) 
@@ -2015,6 +1990,31 @@ VL_INLINE_OPT void Vsim_top_arbiter__P3_A1_AB1_AD1___nba_sequent__TOP__sim_top__
                                                     vlSelf->__PVT__priority_encoder_inst__DOT__stage_enc
                                                     [1U]))
                                                    : 0U)));
+        }
+    }
+    vlSelf->__PVT__grant_encoded_next = 0U;
+    if (((IData)(vlSelf->__PVT__grant_valid_reg) & 
+         (~ (IData)((0U != ((IData)(vlSelf->__PVT__grant_reg) 
+                            & (IData)(vlSymsp->TOP.sim_top__DOT__u_soc_top__DOT__u_AXI_top__DOT__u_axi_crossbar__DOT__axi_crossbar_rd_inst__DOT__m_ifaces__BRA__1__KET____DOT__a_acknowledge))))))) {
+        vlSelf->__PVT__grant_valid_next = vlSelf->__PVT__grant_valid_reg;
+        vlSelf->__PVT__grant_next = vlSelf->__PVT__grant_reg;
+        vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__grant_encoded_reg;
+    } else if ((1U & vlSelf->__PVT__priority_encoder_inst__DOT__stage_valid
+                [1U])) {
+        vlSelf->__PVT__grant_valid_next = 1U;
+        if ((1U & vlSelf->__PVT__priority_encoder_masked__DOT__stage_valid
+             [1U])) {
+            vlSelf->__PVT__grant_next = (7U & ((IData)(1U) 
+                                               << vlSelf->__PVT__priority_encoder_masked__DOT__stage_enc
+                                               [1U]));
+            vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__priority_encoder_masked__DOT__stage_enc
+                [1U];
+        } else {
+            vlSelf->__PVT__grant_next = (7U & ((IData)(1U) 
+                                               << vlSelf->__PVT__priority_encoder_inst__DOT__stage_enc
+                                               [1U]));
+            vlSelf->__PVT__grant_encoded_next = vlSelf->__PVT__priority_encoder_inst__DOT__stage_enc
+                [1U];
         }
     }
 }

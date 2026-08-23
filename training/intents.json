@@ -1,0 +1,197 @@
+{
+  "version": 6,
+  "intents": [
+    {
+      "id": 0,
+      "label": "UNKNOWN",
+      "group": "fallback",
+      "description": "The input is not a supported ISP control.",
+      "action": { "type": "none" },
+      "reply": "抱歉，我没有理解这条指令。"
+    },
+    {
+      "id": 1,
+      "label": "NOOP",
+      "group": "fallback",
+      "description": "The user explicitly requests that no setting be changed.",
+      "action": { "type": "none" },
+      "reply": "好的，保持当前设置。"
+    },
+    {
+      "id": 2,
+      "label": "CHAT_HELLO",
+      "group": "chat",
+      "description": "A short greeting that never changes ISP state.",
+      "action": { "type": "none" },
+      "reply": "你好，请输入 ISP 调整指令。"
+    },
+    {
+      "id": 3,
+      "label": "BRIGHT_UP",
+      "group": "brightness",
+      "description": "Increase brightness by one fixed step.",
+      "action": { "type": "brightness_delta", "value": 8 },
+      "reply": "好的，已经提高亮度。"
+    },
+    {
+      "id": 4,
+      "label": "BRIGHT_DOWN",
+      "group": "brightness",
+      "description": "Decrease brightness by one fixed step.",
+      "action": { "type": "brightness_delta", "value": -8 },
+      "reply": "好的，已经降低亮度。"
+    },
+    {
+      "id": 5,
+      "label": "CONTRAST_UP",
+      "group": "contrast",
+      "description": "Increase contrast by one fixed step.",
+      "action": { "type": "contrast_delta", "value": 8 },
+      "reply": "好的，已经提高对比度。"
+    },
+    {
+      "id": 6,
+      "label": "CONTRAST_DOWN",
+      "group": "contrast",
+      "description": "Decrease contrast by one fixed step.",
+      "action": { "type": "contrast_delta", "value": -8 },
+      "reply": "好的，已经降低对比度。"
+    },
+    {
+      "id": 7,
+      "label": "FILTER_ON",
+      "group": "filter",
+      "description": "Enable the default working filter implementation.",
+      "action": { "type": "filter", "value": "default" },
+      "reply": "好的，已经开启滤波。"
+    },
+    {
+      "id": 8,
+      "label": "FILTER_OFF",
+      "group": "filter",
+      "description": "Disable filtering.",
+      "action": { "type": "filter", "value": "off" },
+      "reply": "好的，已经关闭滤波。"
+    },
+    {
+      "id": 9,
+      "label": "SHARPEN_ON",
+      "group": "sharpen",
+      "description": "Enable the default sharpening mode.",
+      "action": { "type": "sharpen", "value": "default" },
+      "reply": "好的，已经增强图像清晰度。"
+    },
+    {
+      "id": 10,
+      "label": "SHARPEN_OFF",
+      "group": "sharpen",
+      "description": "Disable sharpening.",
+      "action": { "type": "sharpen", "value": "off" },
+      "reply": "好的，已经关闭锐化。"
+    },
+    {
+      "id": 11,
+      "label": "GRAY_ON",
+      "group": "mode",
+      "description": "Switch the output to grayscale.",
+      "action": { "type": "gray", "value": true },
+      "reply": "好的，已经切换为灰度图像。"
+    },
+    {
+      "id": 12,
+      "label": "GRAY_OFF",
+      "group": "mode",
+      "description": "Switch the output back to color.",
+      "action": { "type": "gray", "value": false },
+      "reply": "好的，已经恢复彩色图像。"
+    },
+    {
+      "id": 13,
+      "label": "EDGE_DETECT_ON",
+      "group": "effect",
+      "description": "Enable edge detection.",
+      "action": { "type": "edge_detect", "value": true },
+      "reply": "好的，已经启用边缘检测。"
+    },
+    {
+      "id": 14,
+      "label": "EDGE_DETECT_OFF",
+      "group": "effect",
+      "description": "Disable edge detection.",
+      "action": { "type": "edge_detect", "value": false },
+      "reply": "好的，已经关闭边缘检测。"
+    },
+    {
+      "id": 15,
+      "label": "RESET_ISP",
+      "group": "control",
+      "description": "Restore all ISP settings to their defaults.",
+      "action": { "type": "reset" },
+      "reply": "好的，已经恢复默认设置。"
+    },
+    {
+      "id": 16,
+      "label": "REPEAT_LAST",
+      "group": "control",
+      "description": "Repeat the previous adjustable action.",
+      "action": { "type": "repeat_last" },
+      "reply": "好的，已经重复上一次调整。"
+    },
+    {
+      "id": 17,
+      "label": "QUERY_STATUS",
+      "group": "control",
+      "description": "Report the current ISP settings without changing them.",
+      "action": { "type": "query_status" },
+      "reply": "正在读取当前 ISP 设置。"
+    },
+    {
+      "id": 18,
+      "label": "BINARIZE_ON",
+      "group": "effect",
+      "description": "Enable binary threshold output.",
+      "action": { "type": "binarization", "value": true },
+      "reply": "好的，已经开启二值化。"
+    },
+    {
+      "id": 19,
+      "label": "BINARIZE_OFF",
+      "group": "effect",
+      "description": "Disable binary threshold output.",
+      "action": { "type": "binarization", "value": false },
+      "reply": "好的，已经关闭二值化。"
+    },
+    {
+      "id": 20,
+      "label": "GAMMA_ON",
+      "group": "mode",
+      "description": "Enable the grayscale Gamma stage.",
+      "action": { "type": "gamma", "value": true },
+      "reply": "好的，已经开启 Gamma 校正。"
+    },
+    {
+      "id": 21,
+      "label": "GAMMA_OFF",
+      "group": "mode",
+      "description": "Disable the grayscale Gamma stage.",
+      "action": { "type": "gamma", "value": false },
+      "reply": "好的，已经关闭 Gamma 校正。"
+    },
+    {
+      "id": 22,
+      "label": "CHAT_NAME",
+      "group": "chat",
+      "description": "Ask the assistant's identity.",
+      "action": { "type": "none" },
+      "reply": "我是基于龙芯中科的数字图像处理助手。"
+    },
+    {
+      "id": 23,
+      "label": "CHAT_HELP",
+      "group": "chat",
+      "description": "Ask which ISP operations the assistant supports.",
+      "action": { "type": "none" },
+      "reply": "我可以调整亮度、对比度、滤波、锐化、灰度、Gamma、二值化和边缘检测。"
+    }
+  ]
+}

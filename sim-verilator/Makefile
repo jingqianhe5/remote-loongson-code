@@ -195,7 +195,7 @@ VSRCS := \
 
 SIM_EXE := obj_dir/Vsim_top
 
-.PHONY: all run fast wave clean sdk-build tpu-test
+.PHONY: all run fast wave clean sdk-build tpu-test new-dvi-burst-test
 
 all: $(SIM_EXE)
 
@@ -251,6 +251,13 @@ tpu-test:
 		$(RTL_ROOT)/ip/tpu/fxp_mul.v \
 		$(RTL_ROOT)/ip/tpu/fxp_zoom.v
 	/tmp/ciciec_tpu_dma_tb/Vtpu_dma_tb
+
+new-dvi-burst-test:
+	verilator --binary --timing --top-module new_dvi_burst_tb \
+		--Mdir /tmp/ciciec_new_dvi_burst_tb \
+		-Wno-fatal -Wno-PINMISSING -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC \
+		new_dvi_burst_tb.sv $(RTL_ROOT)/ip/new_DVI/dvi.v
+	/tmp/ciciec_new_dvi_burst_tb/Vnew_dvi_burst_tb
 
 clean:
 	rm -rf obj_dir wave.vcd wave.fst

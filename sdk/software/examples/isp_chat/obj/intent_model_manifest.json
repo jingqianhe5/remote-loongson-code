@@ -1,0 +1,258 @@
+{
+  "format": "isp-intent-linear-q8.8-v1",
+  "classifier": "cosine_centroid",
+  "feature_dim": 2048,
+  "class_count": 24,
+  "ngram_range": [
+    1,
+    3
+  ],
+  "tile_width": 64,
+  "model_bytes": 98376,
+  "macs_per_command": 49152,
+  "semantic_resolver_required": true,
+  "labels": [
+    {
+      "id": 0,
+      "label": "UNKNOWN",
+      "action": {
+        "type": "none"
+      },
+      "reply": "抱歉，我没有理解这条指令。"
+    },
+    {
+      "id": 1,
+      "label": "NOOP",
+      "action": {
+        "type": "none"
+      },
+      "reply": "好的，保持当前设置。"
+    },
+    {
+      "id": 2,
+      "label": "CHAT_HELLO",
+      "action": {
+        "type": "none"
+      },
+      "reply": "你好，请输入 ISP 调整指令。"
+    },
+    {
+      "id": 3,
+      "label": "BRIGHT_UP",
+      "action": {
+        "type": "brightness_delta",
+        "value": 8
+      },
+      "reply": "好的，已经提高亮度。"
+    },
+    {
+      "id": 4,
+      "label": "BRIGHT_DOWN",
+      "action": {
+        "type": "brightness_delta",
+        "value": -8
+      },
+      "reply": "好的，已经降低亮度。"
+    },
+    {
+      "id": 5,
+      "label": "CONTRAST_UP",
+      "action": {
+        "type": "contrast_delta",
+        "value": 8
+      },
+      "reply": "好的，已经提高对比度。"
+    },
+    {
+      "id": 6,
+      "label": "CONTRAST_DOWN",
+      "action": {
+        "type": "contrast_delta",
+        "value": -8
+      },
+      "reply": "好的，已经降低对比度。"
+    },
+    {
+      "id": 7,
+      "label": "FILTER_ON",
+      "action": {
+        "type": "filter",
+        "value": "default"
+      },
+      "reply": "好的，已经开启滤波。"
+    },
+    {
+      "id": 8,
+      "label": "FILTER_OFF",
+      "action": {
+        "type": "filter",
+        "value": "off"
+      },
+      "reply": "好的，已经关闭滤波。"
+    },
+    {
+      "id": 9,
+      "label": "SHARPEN_ON",
+      "action": {
+        "type": "sharpen",
+        "value": "default"
+      },
+      "reply": "好的，已经增强图像清晰度。"
+    },
+    {
+      "id": 10,
+      "label": "SHARPEN_OFF",
+      "action": {
+        "type": "sharpen",
+        "value": "off"
+      },
+      "reply": "好的，已经关闭锐化。"
+    },
+    {
+      "id": 11,
+      "label": "GRAY_ON",
+      "action": {
+        "type": "gray",
+        "value": true
+      },
+      "reply": "好的，已经切换为灰度图像。"
+    },
+    {
+      "id": 12,
+      "label": "GRAY_OFF",
+      "action": {
+        "type": "gray",
+        "value": false
+      },
+      "reply": "好的，已经恢复彩色图像。"
+    },
+    {
+      "id": 13,
+      "label": "EDGE_DETECT_ON",
+      "action": {
+        "type": "edge_detect",
+        "value": true
+      },
+      "reply": "好的，已经启用边缘检测。"
+    },
+    {
+      "id": 14,
+      "label": "EDGE_DETECT_OFF",
+      "action": {
+        "type": "edge_detect",
+        "value": false
+      },
+      "reply": "好的，已经关闭边缘检测。"
+    },
+    {
+      "id": 15,
+      "label": "RESET_ISP",
+      "action": {
+        "type": "reset"
+      },
+      "reply": "好的，已经恢复默认设置。"
+    },
+    {
+      "id": 16,
+      "label": "REPEAT_LAST",
+      "action": {
+        "type": "repeat_last"
+      },
+      "reply": "好的，已经重复上一次调整。"
+    },
+    {
+      "id": 17,
+      "label": "QUERY_STATUS",
+      "action": {
+        "type": "query_status"
+      },
+      "reply": "正在读取当前 ISP 设置。"
+    },
+    {
+      "id": 18,
+      "label": "BINARIZE_ON",
+      "action": {
+        "type": "binarization",
+        "value": true
+      },
+      "reply": "好的，已经开启二值化。"
+    },
+    {
+      "id": 19,
+      "label": "BINARIZE_OFF",
+      "action": {
+        "type": "binarization",
+        "value": false
+      },
+      "reply": "好的，已经关闭二值化。"
+    },
+    {
+      "id": 20,
+      "label": "GAMMA_ON",
+      "action": {
+        "type": "gamma",
+        "value": true
+      },
+      "reply": "好的，已经开启 Gamma 校正。"
+    },
+    {
+      "id": 21,
+      "label": "GAMMA_OFF",
+      "action": {
+        "type": "gamma",
+        "value": false
+      },
+      "reply": "好的，已经关闭 Gamma 校正。"
+    },
+    {
+      "id": 22,
+      "label": "CHAT_NAME",
+      "action": {
+        "type": "none"
+      },
+      "reply": "我是基于龙芯中科的数字图像处理助手。"
+    },
+    {
+      "id": 23,
+      "label": "CHAT_HELP",
+      "action": {
+        "type": "none"
+      },
+      "reply": "我可以调整亮度、对比度、滤波、锐化、灰度、Gamma、二值化和边缘检测。"
+    }
+  ],
+  "metrics": {
+    "splits": [
+      {
+        "seed": 20260715,
+        "q8_raw_accuracy": 0.8125,
+        "q8_resolved_accuracy": 1.0
+      },
+      {
+        "seed": 20260716,
+        "q8_raw_accuracy": 0.875,
+        "q8_resolved_accuracy": 1.0
+      },
+      {
+        "seed": 20260717,
+        "q8_raw_accuracy": 0.8125,
+        "q8_resolved_accuracy": 1.0
+      },
+      {
+        "seed": 20260718,
+        "q8_raw_accuracy": 0.8125,
+        "q8_resolved_accuracy": 1.0
+      },
+      {
+        "seed": 20260719,
+        "q8_raw_accuracy": 0.8125,
+        "q8_resolved_accuracy": 1.0
+      }
+    ],
+    "q8_raw_mean": 0.825,
+    "q8_raw_min": 0.8125,
+    "q8_resolved_mean": 1.0,
+    "q8_resolved_min": 1.0,
+    "teacher_records": 480
+  }
+}

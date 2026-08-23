@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a200tfbg676-1" LaunchTime="1784040846" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/soc_top.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a200tfbg676-1" LaunchTime="1784726205" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/soc_top.dcp">
   <File Type="VDS-TIMING-PB" Name="soc_top_timing_summary_synth.pb"/>
   <File Type="VDS-TIMINGSUMMARY" Name="soc_top_timing_summary_synth.rpt"/>
   <File Type="RDS-DCP" Name="soc_top.dcp"/>
@@ -829,6 +829,15 @@
     </File>
     <File Path="$PPRDIR/../../rtl/ip/isp/AXI2Video.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../rtl/ip/isp/Video2AXI.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -884,13 +893,6 @@
       </FileInfo>
     </File>
     <File Path="$PPRDIR/../../rtl/ip/isp/RGB_to_gray.v">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../rtl/ip/isp/Video2AXI.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>

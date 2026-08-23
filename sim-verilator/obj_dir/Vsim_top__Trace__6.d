@@ -13,4 +13,4 @@ Vsim_top__Trace__6.o: Vsim_top__Trace__6.cpp \
  /usr/local/share/verilator/include/verilated_timing.h Vsim_top_Axi_CDC.h \
  Vsim_top_BoothInterBase.h Vsim_top_WallaceTreeBase.h \
  Vsim_top_arbiter__P3_A1_AB1_AD1.h Vsim_top_robert_sharpen_single.h \
- Vsim_top_sobel_sharpen_single.h Vsim_top_pe.h
+ Vsim_top_sobel_sharpen_single.h

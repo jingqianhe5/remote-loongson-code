@@ -1328,14 +1328,14 @@ dvi #(
 );
 
 //==================================================
-// 实例化 AXI to AXI-Lite 适配器 (连接至 S5 端口, 用于DMA配置)
+// 实例化 AXI to AXI-Lite 适配器 (连接至 S5 端口, 用于 DMA 配置)
 //==================================================
 axi_axil_adapter #(
     .ADDR_WIDTH      (32),
     .AXI_DATA_WIDTH  (32),
     .AXI_ID_WIDTH    (6),
     .AXIL_DATA_WIDTH (32)
-) u_axi_axil_adapter_s7 (
+) u_axi_axil_adapter_s5 (
     .clk             (sys_clk        ),
     .rst             (~sys_resetn    ),
     .s_axi_awid      (s5_axi_awid    ),
@@ -1395,14 +1395,14 @@ axi_axil_adapter #(
 );
 
 //==================================================
-// 实例化 AXI to AXI-Lite 适配器 (连接至 S7 端口, 用于ISP配置)
+// 实例化 AXI to AXI-Lite 适配器 (连接至 S7 端口, 用于 ISP 配置)
 //==================================================
 axi_axil_adapter #(
     .ADDR_WIDTH      (32),
     .AXI_DATA_WIDTH  (32),
     .AXI_ID_WIDTH    (6),
     .AXIL_DATA_WIDTH (32)
-) u_axi_axil_adapter_s5 (
+) u_axi_axil_adapter_s7 (
     .clk             (sys_clk        ),
     .rst             (~sys_resetn    ),
     .s_axi_awid      (s7_axi_awid    ),
@@ -1535,9 +1535,8 @@ confreg #(
 //==================================================
 // 实例化 AXI DMA 和 ISP Top
 //==================================================
-// 注意：axi_dma 和 isp_top 源文件目前不包含基于内存映射 AXI-Lite 的配置通道。
-// 如果你需要使用 CPU 配置这俩模块的寄存器，建议后续编写 AXI-Lite Wrapper 并连接在刚才引出的 S4 和 S5 号口上。
-// 当前顶层先直接打通 DMA 读写回环，让数据从 SRAM 搬运到 DVI，ISP 数据链路暂时旁路。
+// DMA 通过 S5 配置，ISP 通过 S7 配置。ISP 的 AXI-Stream 像素通路在
+// 当前阶段保持空闲；CPU 可以根据 TPU 推理结果通过 S7 更新 ISP 参数。
 
 wire [31:0] axis_dma_read_tdata;
 wire [ 3:0] axis_dma_read_tkeep;
@@ -1573,6 +1572,23 @@ wire [7:0]  isp_cfg_awb_b_thresh;
 wire [15:0] isp_cfg_width;
 wire [15:0] isp_cfg_height;
 
+// Direct-video integration point.  AXI2Video is intentionally disconnected;
+// the external source will drive these inputs in a later top-level revision.
+wire        isp_video_in_vsync;
+wire        isp_video_in_href;
+wire        isp_video_in_de;
+wire [23:0] isp_video_in_data;
+wire        isp_video_out_vsync;
+wire        isp_video_out_href;
+wire        isp_video_out_de;
+wire [23:0] isp_video_out_data;
+wire        isp_fifo_overflow;
+
+assign isp_video_in_vsync = 1'b0;
+assign isp_video_in_href  = 1'b0;
+assign isp_video_in_de    = 1'b0;
+assign isp_video_in_data  = 24'd0;
+
 assign confreg_dma_finish = dma_read_desc_status_valid | dma_write_desc_status_valid;
 
 assign axis_dma_read_tready = axis_dma_write_tready;
@@ -1588,8 +1604,8 @@ axi_dma #(
     .AXI_ADDR_WIDTH(32),
     .AXI_ID_WIDTH(4),   // 匹配 AXI_top 的 S_ID_WIDTH=4
     .AXIS_DATA_WIDTH(32),
-    // 1 beat = 32-bit = 4 pixels, 16-beat burst = 64 pixels
-    .AXI_MAX_BURST_LEN(16)
+    // 1 beat = 4 pixels; 64-beat bursts reduce per-frame AXI overhead.
+    .AXI_MAX_BURST_LEN(64)
 ) u_axi_dma (
     .clk           (sys_clk    ),
     .rst           (~sys_resetn),
@@ -1733,13 +1749,18 @@ tpu_axi_fetch_top #(
 );
 
 // --- 例化 ISP 图像处理算法模块 ---
-isp_top #(
-    .AXIS_DATA_WIDTH(32),
-    .INPUT_FIFO_DEPTH(16385),
-    .OUTPUT_FIFO_DEPTH(16385)
-) u_isp_top (
+isp_top u_isp_top (
     .clk                   (sys_clk    ),
     .rst_n                 (sys_resetn ),
+
+    .video_in_vsync        (isp_video_in_vsync),
+    .video_in_href         (isp_video_in_href),
+    .video_in_de           (isp_video_in_de),
+    .video_in_data         (isp_video_in_data),
+    .video_out_vsync       (isp_video_out_vsync),
+    .video_out_href        (isp_video_out_href),
+    .video_out_de          (isp_video_out_de),
+    .video_out_data        (isp_video_out_data),
 
     .width                 (isp_cfg_width ),
     .height                (isp_cfg_height),
@@ -1751,23 +1772,11 @@ isp_top #(
     .awb_R_thresh          (isp_cfg_awb_r_thresh),
     .awb_G_thresh          (isp_cfg_awb_g_thresh),
     .awb_B_thresh          (isp_cfg_awb_b_thresh),
-    .fifo_overflow         (),     
-
-    // 当前顶层暂不走 ISP 数据链路，保留例化但将其旁路
-    .s_axis_tdata          (32'd0),
-    .s_axis_tvalid         (1'b0),
-    .s_axis_tlast          (1'b0),
-    .s_axis_tready         (),
-
-    .m_axis_tdata          (),
-    .m_axis_tvalid         (),
-    .m_axis_tlast          (),
-    .m_axis_tuser          (),
-    .m_axis_tready         (1'b0)
+    .fifo_overflow         (isp_fifo_overflow)
 );
 
 //==================================================
-// 实例化 DMA 和 ISP 的 AXI-Lite 配置模块 (占位)
+// 实例化 DMA 和 ISP 的 AXI-Lite 配置模块
 //==================================================
 /*
  * 模块 `dma_config_axil` (需要你来创建):
@@ -1816,9 +1825,8 @@ dma_config_axil u_dma_config_axil (
 );
 
 /*
- * 模块 `isp_config_axil` (需要你来创建):
- * 这是一个简单的 AXI-Lite 从设备，向其特定地址写入任意值
- * 就会产生一个 `frame_start_pulse` 脉冲。
+ * ISP 配置地址窗口为 0x1f500000~0x1f5fffff。这里只接配置
+ * 通路；ISP AXI-Stream 像素输入仍保持旁路，后续可独立修改。
  */
 
 isp_config_axil u_isp_config_axil (

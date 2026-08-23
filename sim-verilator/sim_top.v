@@ -187,13 +187,76 @@ module uart_fifo_monitor (
 );
     initial active = 1'b0;
 
+    reg [7:0] utf8_byte_0;
+    reg [7:0] utf8_byte_1;
+    reg [7:0] utf8_byte_2;
+    reg [2:0] utf8_expected;
+    reg [2:0] utf8_received;
+
+    initial begin
+        utf8_byte_0  = 8'd0;
+        utf8_byte_1  = 8'd0;
+        utf8_byte_2  = 8'd0;
+        utf8_expected = 3'd0;
+        utf8_received = 3'd0;
+    end
+
     always @(posedge clk) begin
         if (!rst_n) begin
             active <= 1'b0;
+            utf8_expected <= 3'd0;
+            utf8_received <= 3'd0;
         end else if (char_valid) begin
             active <= 1'b1;
-            $write("%c", char_data);
-            $fflush();
+            if (utf8_expected == 3'd0) begin
+                if (char_data < 8'h80) begin
+                    $write("%c", char_data);
+                    $fflush();
+                end else if ((char_data & 8'he0) == 8'hc0) begin
+                    utf8_byte_0  <= char_data;
+                    utf8_expected <= 3'd2;
+                    utf8_received <= 3'd1;
+                end else if ((char_data & 8'hf0) == 8'he0) begin
+                    utf8_byte_0  <= char_data;
+                    utf8_expected <= 3'd3;
+                    utf8_received <= 3'd1;
+                end else if ((char_data & 8'hf8) == 8'hf0) begin
+                    utf8_byte_0  <= char_data;
+                    utf8_expected <= 3'd4;
+                    utf8_received <= 3'd1;
+                end else begin
+                    $write("?");
+                    $fflush();
+                end
+            end else if ((char_data & 8'hc0) != 8'h80) begin
+                // Invalid/truncated UTF-8 from the simulated UART.
+                $write("?");
+                $fflush();
+                utf8_expected <= 3'd0;
+                utf8_received <= 3'd0;
+            end else if (utf8_received == 3'd1 && utf8_expected == 3'd2) begin
+                $write("%c%c", utf8_byte_0, char_data);
+                $fflush();
+                utf8_expected <= 3'd0;
+                utf8_received <= 3'd0;
+            end else if (utf8_received == 3'd1) begin
+                utf8_byte_1  <= char_data;
+                utf8_received <= 3'd2;
+            end else if (utf8_received == 3'd2 && utf8_expected == 3'd3) begin
+                $write("%c%c%c", utf8_byte_0, utf8_byte_1, char_data);
+                $fflush();
+                utf8_expected <= 3'd0;
+                utf8_received <= 3'd0;
+            end else if (utf8_received == 3'd2) begin
+                utf8_byte_2  <= char_data;
+                utf8_received <= 3'd3;
+            end else begin
+                $write("%c%c%c%c", utf8_byte_0, utf8_byte_1,
+                       utf8_byte_2, char_data);
+                $fflush();
+                utf8_expected <= 3'd0;
+                utf8_received <= 3'd0;
+            end
         end
     end
 endmodule
@@ -501,6 +564,37 @@ end
 // ================================================================
 // Simulation termination
 // ================================================================
+integer new_dvi_byte_count;
+integer new_dvi_frame_count;
+reg [31:0] new_dvi_frame_checksum;
+
+initial begin
+    new_dvi_byte_count = 0;
+    new_dvi_frame_count = 0;
+    new_dvi_frame_checksum = 0;
+end
+
+always @(posedge u_soc_top.sys_clk) begin
+    if (!u_soc_top.sys_resetn) begin
+        new_dvi_byte_count <= 0;
+        new_dvi_frame_count <= 0;
+        new_dvi_frame_checksum <= 0;
+    end else if (u_soc_top.u_new_dvi.dvi_write_en_o) begin
+        if (new_dvi_byte_count == 61_439) begin
+            $display("[sim] new DVI DMA frame=%0d checksum=0x%08x",
+                     new_dvi_frame_count + 1,
+                     new_dvi_frame_checksum + u_soc_top.u_new_dvi.dvi_write_data_o);
+            new_dvi_byte_count <= 0;
+            new_dvi_frame_count <= new_dvi_frame_count + 1;
+            new_dvi_frame_checksum <= 0;
+        end else begin
+            new_dvi_byte_count <= new_dvi_byte_count + 1;
+            new_dvi_frame_checksum <=
+                new_dvi_frame_checksum + u_soc_top.u_new_dvi.dvi_write_data_o;
+        end
+    end
+end
+
 wire [31:0] wb_pc = u_soc_top.cpu_debug0_wb_pc;
 reg finish_on_legacy_pc;
 

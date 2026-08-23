@@ -20,6 +20,7 @@
 */
 
 #include "types.h"
+#include "config.h"
 #include "x6502.h"
 
 #include "fceu.h"
@@ -159,11 +160,15 @@ void FCEU_DrawInput(uint8 *buf)
 
 void FCEU_UpdateInput(void)
 {
+#if FCEUX_DISABLE_INPUT
+	return;
+#else
 	//tell all drivers to poll input and set up their logical states
   for(int port=0;port<2;port++){
     joyports[port].driver->Update(port,joyports[port].ptr,joyports[port].attrib);
   }
   portFC.driver->Update(portFC.ptr,portFC.attrib);
+#endif
 }
 
 

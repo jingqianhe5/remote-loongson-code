@@ -47,9 +47,6 @@ VM_CLASSES_FAST += \
 	Vsim_top_robert_sharpen_single__DepSet_hd02082d2__0 \
 	Vsim_top_sobel_sharpen_single__DepSet_h450a7476__0 \
 	Vsim_top_sobel_sharpen_single__DepSet_hbad9379b__0 \
-	Vsim_top_pe__DepSet_h7122f8a6__0 \
-	Vsim_top_pe__DepSet_h7122f8a6__1 \
-	Vsim_top_pe__DepSet_hc701aaeb__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
@@ -76,9 +73,6 @@ VM_CLASSES_SLOW += \
 	Vsim_top_sobel_sharpen_single__Slow \
 	Vsim_top_sobel_sharpen_single__DepSet_h450a7476__0__Slow \
 	Vsim_top_sobel_sharpen_single__DepSet_hbad9379b__0__Slow \
-	Vsim_top_pe__Slow \
-	Vsim_top_pe__DepSet_h7122f8a6__0__Slow \
-	Vsim_top_pe__DepSet_hc701aaeb__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
@@ -89,7 +83,6 @@ VM_SUPPORT_FAST += \
 	Vsim_top__Trace__4 \
 	Vsim_top__Trace__5 \
 	Vsim_top__Trace__6 \
-	Vsim_top__Trace__7 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
@@ -103,7 +96,6 @@ VM_SUPPORT_SLOW += \
 	Vsim_top__Trace__6__Slow \
 	Vsim_top__Trace__7__Slow \
 	Vsim_top__Trace__8__Slow \
-	Vsim_top__Trace__9__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

@@ -56,7 +56,6 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 4
 set_param general.usePosixSpawnForFork 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a200tfbg676-1
@@ -86,7 +85,6 @@ set_property file_type "Verilog Header" [get_files /home/hjq/usr/loongson/ciciec
 set_property file_type "Verilog Header" [get_files /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/APB_UART/URT/uart_defines.h]
 read_verilog -library xil_defaultlib -sv /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/tpu/unified_buffer.sv
 read_verilog -library xil_defaultlib {
-  /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/AXI2Video.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/verilog-axi-master/rtl/AXI_top.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/Bus_interconnects/Axi_CDC.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/Brightness_adjustment.v
@@ -95,7 +93,6 @@ read_verilog -library xil_defaultlib {
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/Matrix_Generate_5X5_8Bit.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/RBG888_to_gray.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/RGB_to_gray.v
-  /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/isp/Video2AXI.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/open-la500/addr_trans.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/open-la500/alu.v
   /home/hjq/usr/loongson/ciciec2026_loongson_preliminary/rtl/ip/APB_UART/apb_mux2.v
